@@ -36,3 +36,7 @@ public class Card {
 		Op.log("");
 	}
 }
+
+
+
+
