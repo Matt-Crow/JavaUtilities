@@ -1,6 +1,7 @@
 package main;
+import cardPlaces.Deck;
 import cards.Card;
-import cards.Deck;
+import utilities.Op;
 
 public class Main {
 	public static void main(String[] args) {
@@ -10,5 +11,13 @@ public class Main {
 		d.addCard(new Card("Test3"));
 		d.addCard(new Card("Test3"), 1);
 		d.displayData();
+		d.init();
+		for(int i = 0; i < 3; i++){
+			Op.log("Deck:");
+			d.discard();
+			d.displayData();
+			Op.log("Disc:");
+			d.getDiscardPile().displayData();
+		}
 	}
 }
