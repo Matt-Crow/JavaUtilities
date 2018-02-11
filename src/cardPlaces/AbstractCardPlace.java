@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 
+// what sort of data structure should I use?
 public abstract class AbstractCardPlace {
 	private ArrayList<Card> cards;
 	
@@ -23,6 +24,7 @@ public abstract class AbstractCardPlace {
 		this(a.copy());
 	}
 	
+	// setters and getters
 	public ArrayList<Card> copy(){
 		ArrayList<Card> ret = new ArrayList<>();
 		
@@ -33,6 +35,7 @@ public abstract class AbstractCardPlace {
 		return ret;
 	}
 	
+	
 	//todo: add checking
 	public Card getCardAt(int i){
 		return cards.get(i);
@@ -41,6 +44,7 @@ public abstract class AbstractCardPlace {
 		return cards.size();
 	}
 	
+	// add cards
 	public void addCard(Card c){
 		cards.add(new Card(c));
 	}
@@ -49,6 +53,8 @@ public abstract class AbstractCardPlace {
 			addCard(c);
 		}
 	}
+	
+	// remove cards
 	public void removeCard(int i){
 		cards.remove(i);
 	}
@@ -67,6 +73,30 @@ public abstract class AbstractCardPlace {
 		}
 	}
 	
+	// searching
+	public boolean checkIfContains(String name){
+		return checkIfContains(name, cards.size());
+	}
+	public boolean checkIfContains(String name, int topX){
+		boolean found = false;
+		for(int i = 0; i < topX && !found; i++){
+			if(cards.get(i).getName() == name){
+				found = true;
+			}
+		}
+		return found;
+	}
+	
+	// getting cards
+	public ArrayList<Card> getTopX(int x){
+		ArrayList<Card> topX = new ArrayList<>();
+		for(int i = 0; i < x && i < cards.size(); i++){
+			topX.add(cards.get(i));
+		}
+		return topX;
+	}
+	
+
 	public void shuffle(){
 		Collections.shuffle(cards);
 	}

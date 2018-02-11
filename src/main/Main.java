@@ -2,6 +2,7 @@ package main;
 import cardPlaces.Deck;
 import cards.Card;
 import utilities.Op;
+import graphics.ColorTesterFrame;
 
 public class Main {
 	public static void main(String[] args) {
@@ -19,5 +20,6 @@ public class Main {
 			Op.log("Disc:");
 			d.getDiscardPile().displayData();
 		}
+		new ColorTesterFrame();
 	}
 }
