@@ -2,17 +2,20 @@ package cardPlaces;
 
 import cards.Card;
 import utilities.Op;
+import utilities.DeckStructure;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.HashMap;
 
 // what sort of data structure should I use?
 public abstract class AbstractCardPlace {
-	private ArrayList<Card> cards;
+	private DeckStructure cards;
 	
 	public AbstractCardPlace(){
-		cards = new ArrayList<>();
+		
+	}
+	public void setSize(int s){
+		cards = new DeckStructure(s);
 	}
 	public AbstractCardPlace(ArrayList<Card> initCards){
 		this();
@@ -98,7 +101,7 @@ public abstract class AbstractCardPlace {
 	
 
 	public void shuffle(){
-		Collections.shuffle(cards);
+		cards.shuffle();
 	}
 	public void displayData(){
 		HashMap<String, Integer> quantities = new HashMap<>();
