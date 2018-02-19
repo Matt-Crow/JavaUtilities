@@ -1,25 +1,24 @@
 package main;
-import cardPlaces.Deck;
 import cards.Card;
 import utilities.Op;
-import graphics.ColorTesterFrame;
+import utilities.DeckStructure;
+//import graphics.ColorTesterFrame;
 
 public class Main {
 	public static void main(String[] args) {
-		Deck d = new Deck("Test deck");
-		d.addCard(new Card("Test1"), 3);
-		d.addCard(new Card("Test2"));
-		d.addCard(new Card("Test3"));
-		d.addCard(new Card("Test3"), 1);
+		//Deck d = new Deck("Test deck");
+		DeckStructure d = new DeckStructure(10);
+		d.add(new Card("Test1"), 3);
+		d.add(new Card("Test2"));
+		d.add(new Card("Test3"));
+		d.add(new Card("Test3"), 1);
 		d.displayData();
-		d.init();
+		d.shuffle();
 		for(int i = 0; i < 3; i++){
 			Op.log("Deck:");
 			d.discard();
 			d.displayData();
-			Op.log("Disc:");
-			d.getDiscardPile().displayData();
 		}
-		new ColorTesterFrame();
+		//new ColorTesterFrame();
 	}
 }

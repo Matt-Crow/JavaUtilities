@@ -14,9 +14,6 @@ public abstract class AbstractCardPlace {
 	public AbstractCardPlace(){
 		
 	}
-	public void setSize(int s){
-		cards = new DeckStructure(s);
-	}
 	public AbstractCardPlace(ArrayList<Card> initCards){
 		this();
 		for(Card c : initCards){
@@ -25,6 +22,10 @@ public abstract class AbstractCardPlace {
 	}
 	public AbstractCardPlace(AbstractCardPlace a){
 		this(a.copy());
+	}
+	//must invoke before adding cards
+	public void setSize(int s){
+		cards = new DeckStructure(s);
 	}
 	
 	// setters and getters
@@ -116,5 +117,6 @@ public abstract class AbstractCardPlace {
 		for(String key : quantities.keySet()){
 			Op.log(key + ": x" + quantities.get(key));
 		}
+		cards.displayData();
 	}
 }

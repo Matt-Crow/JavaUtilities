@@ -6,7 +6,6 @@ import cards.Card;
 
 public class Deck extends AbstractOutOfPlayPlace{
 	private String name;
-	private DiscardPile discardPile; 
 	
 	public Deck(String s){
 		super();
@@ -24,17 +23,11 @@ public class Deck extends AbstractOutOfPlayPlace{
 	public String getName(){
 		return name;
 	}
-	public DiscardPile getDiscardPile(){
-		return discardPile;
-	}
-	
 	public void init(){
-		discardPile = new DiscardPile(this);
 		shuffle();
 	}
 	public void discard(int topX){
 		for(int i = 0; i < topX; i++){
-			discardPile.addCard(getCardAt(getSize() - 1));
 			removeCard(getSize() - 1);
 		}
 	}
