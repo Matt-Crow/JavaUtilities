@@ -56,12 +56,16 @@ public class DeckStructure implements Iterable<Card>{
 	
 	public void remove(int index){
 		sortNumbers[getIndexOf(index)] = -1;
-		filterDown();
+		accessibleSize--;
+		for(int i = 0; i < currentSize; i++){
+			if(sortNumbers[i] != -1){
+				sortNumbers[i]--;
+			}
+		}
 	}
 	
 	public void discard(){
-		sortNumbers[getIndexOf(0)] = -1;
-		filterDown();
+		remove(0);
 	}
 	
 	public Card get(int index){
@@ -109,7 +113,7 @@ public class DeckStructure implements Iterable<Card>{
 		Random rng = new Random();
 		for(int i = 0; i < maxSize; i++){
 			if(sortNumbers[i] != -1){
-				sortNumbers[i] = rng.nextInt(maxSize);
+				sortNumbers[i] = rng.nextInt(maxSize) + 1;
 			}
 		}
 		filterDown();
@@ -123,27 +127,42 @@ public class DeckStructure implements Iterable<Card>{
 		 */
 		// outer loop stores the number of cards
 		// between the card and the top of the deck
-		int smallerCount;
-		int[] newNums = new int[maxSize];
+		
+		// set up the new indices
+		//int[] newNums = new int[maxSize];
+		/*
 		for(int i = 0; i < maxSize; i++){
 			newNums[i] = -1;
-		}
+		}*/
 		
-		for(int i = 0; i < maxSize; i++){
-			smallerCount = 0; // number of elements smaller than this
-			Op.log("Data before iteration:");
-			Op.log(newNums);
-			Op.log(sortNumbers);
-			for(int j = 0; j < maxSize; j++){
-				if(sortNumbers[j] < sortNumbers[i] && sortNumbers[j] != -1){
-					smallerCount++;
+		Op.log("Initial data:");
+		Op.log(sortNumbers);
+		
+		// keep going until you've reassigned all indices
+		for(int nextNum = 0; nextNum < accessibleSize; nextNum++){
+			//nextNum: the next index to assign to the smallest
+			int smallestNum = Integer.MAX_VALUE; // the value of the smallest index
+			int smallestIndex = -1; // the index of the smallest value
+			
+			// go through each element
+			for(int i = 0; i < maxSize; i++){
+				// make sure not to edit already reassigned or -1
+				if(sortNumbers[i] > nextNum){
+					if(sortNumbers[i] < smallestNum){
+						smallestNum = sortNumbers[i];
+						smallestIndex = i; // find the smallest
+					} else {
+						sortNumbers[i]++; // so that we can still sort with it
+					}
 				}
 			}
-			if(sortNumbers[i] != -1){
-				newNums[i] = smallerCount;
-			}
+			//newNums[smallestIndex] = nextNum;
+			sortNumbers[smallestIndex] = nextNum;
+			Op.log("Data after iteration:");
+			//Op.log(newNums);
+			Op.log(sortNumbers);
 		}
-		sortNumbers = newNums;
+		//sortNumbers = newNums;
 	}
 	
 	public void displayData(){
