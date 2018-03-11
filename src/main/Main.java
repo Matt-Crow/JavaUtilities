@@ -10,9 +10,8 @@ public class Main {
 		for(int i = 0; i < 52; i++){
 			d.add(new Card("test"));
 		}
-		for(int i = 0; i < 10; i++){
-			d.shuffle();
-		}
+		d.shuffle();
+		d.displayData();
 		//new ColorTesterFrame();
 	}
 }

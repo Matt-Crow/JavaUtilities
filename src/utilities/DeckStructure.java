@@ -77,7 +77,7 @@ public class DeckStructure implements Iterable<Card>{
 		}
 		
 		for(int i = 0; i < currentSize && !found; i++){
-			Op.log("sortNumbers[" + i + "]: " + sortNumbers[i]);
+			//Op.log("sortNumbers[" + i + "]: " + sortNumbers[i]);
 			if(sortNumbers[i] == index){
 				found = true;
 				ret = contents[i];
@@ -96,6 +96,7 @@ public class DeckStructure implements Iterable<Card>{
 		for(int i = 0; i < currentSize && !found; i++){
 			if(sortNumbers[i] == index){
 				ret = i;
+				found = true;
 			}
 		}
 		if(ret == -1){
@@ -119,21 +120,11 @@ public class DeckStructure implements Iterable<Card>{
 		filterDown();
 	}
 	
-	// todo: weed out dupes
 	public void filterDown(){
 		/* 
 		 * makes it so the numbers 
 		 * form a proper array
 		 */
-		// outer loop stores the number of cards
-		// between the card and the top of the deck
-		
-		// set up the new indices
-		//int[] newNums = new int[maxSize];
-		/*
-		for(int i = 0; i < maxSize; i++){
-			newNums[i] = -1;
-		}*/
 		
 		Op.log("Initial data:");
 		Op.log(sortNumbers);
@@ -156,16 +147,18 @@ public class DeckStructure implements Iterable<Card>{
 					}
 				}
 			}
-			//newNums[smallestIndex] = nextNum;
 			sortNumbers[smallestIndex] = nextNum;
 			Op.log("Data after iteration:");
-			//Op.log(newNums);
 			Op.log(sortNumbers);
 		}
-		//sortNumbers = newNums;
 	}
 	
 	public void displayData(){
+		Iterator<Card> it = iterator();
+		while(it.hasNext()){
+			//Op.log(it.next().getName()); // add get number
+		}
+		
 		for(int i = 0; i < currentSize; i++){
 			Op.log(contents[i].getName() + ": at position " + sortNumbers[i]);
 		}
