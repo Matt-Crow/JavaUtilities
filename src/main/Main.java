@@ -1,6 +1,7 @@
 package main;
 import cards.Card;
 import utilities.DeckStructure;
+import utilities.Op;
 //import graphics.ColorTesterFrame;
 
 public class Main {
@@ -12,6 +13,9 @@ public class Main {
 		}
 		d.shuffle();
 		d.displayData();
+		for(Card c : d){
+			Op.log("Name: " + c.getName());
+		}
 		//new ColorTesterFrame();
 	}
 }
