@@ -154,17 +154,8 @@ public class DeckStructure implements Iterable<Card>{
 	}
 	
 	public void displayData(){
-		Iterator<Card> it = iterator();
-		while(it.hasNext()){
-			//Op.log(it.next().getName()); // add get number
-		}
-		/*
-		for(Card c : iterator()){
-			
-		}*/
-		
-		for(int i = 0; i < currentSize; i++){
-			Op.log(contents[i].getName() + ": at position " + sortNumbers[i]);
+		for(Card c : this){
+			Op.log(c.getName());
 		}
 	}
 	
