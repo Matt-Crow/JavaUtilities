@@ -1,16 +1,15 @@
 package main;
+import cardPlaces.Deck;
 import cards.Card;
-import utilities.DeckStructure;
-//import graphics.ColorTesterFrame;
 
 public class Main {
 	public static void main(String[] args) {
-		//Deck d = new Deck("Test deck");
-		DeckStructure d = new DeckStructure(52);
-		for(int i = 0; i < 52; i++){
-			d.add(new Card("test " + i));
-		}
-		d.shuffle();
+		Deck d = new Deck("Test deck");
+		d.setSize(6);
+		d.add(new Card("Test 1"), 3);
+		d.add(new Card("test 2"), 2);
+		d.add(new Card("test 3"));
+		d.remove("Test 1", 2);
 		d.displayData();
 		//new ColorTesterFrame();
 	}
