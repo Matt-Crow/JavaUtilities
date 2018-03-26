@@ -11,4 +11,7 @@ public class Op {
 			log(Integer.toString(items[i]));
 		}
 	}
+	public static void log(int i){
+		log(Integer.toString(i));
+	}
 }

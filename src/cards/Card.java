@@ -31,6 +31,10 @@ public class Card {
 	public String getText(){
 		return text;
 	}
+	// TODO: use this in drawing and discarding
+	public void setState(PlayState s){
+		state = s;
+	}
 	public PlayState getState(){
 		return state;
 	}

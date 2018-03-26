@@ -120,32 +120,38 @@ public class Deck implements Iterable<Card>{
 		}
 	}
 	
-	public void remove(int remove){
-		int index = getIndexOf(remove);
+	//doubling up on some numbers
+	public void remove(int ind){
+		// sets the index with a value of ind to -1
+		int index = getIndexOf(ind);
+		Op.log("Index: " + index);
 		if(sortNumbers[index] != -1){
 			sortNumbers[index] = -1;
 			accessibleSize--;
 			for(int i = 0; i < currentSize; i++){
-				if(sortNumbers[i] != -1){
+				if(sortNumbers[i] > index){
 					sortNumbers[i]--;
 				}
 			}
 		}
+		Op.log(sortNumbers);
+		Op.log(" ");
 	}
 	public void remove(String n){
 		boolean found = false;
 		for(int i = 0; i < currentSize && !found; i++){
 			if(contents[i].getName() == n && sortNumbers[i] != -1){
 				found = true;
-				remove(i);
+				remove(sortNumbers[i]); //just i would cause error
 			}
 		}
 	}
 	public void remove(String n, int copies){
 		for(int i = 0; i < copies; i++){
-			remove(i);
+			remove(n);
 		}
 	}
+	
 	public void removeAll(String n){
 		while(contains(n)){
 			remove(n);
@@ -155,7 +161,7 @@ public class Deck implements Iterable<Card>{
 	public void discard(){
 		remove(0);
 	}
-	public void discard(int topX){
+	public void discardTopX(int topX){
 		for(int i = 0; i < topX; i++){
 			discard();
 		}
@@ -269,11 +275,22 @@ public class Deck implements Iterable<Card>{
 		}
 	}
 	
+	public void displayOrder(){
+		Op.log(name);
+		int i = 0;
+		for(Card c : this){
+			Op.log(i + ": " + c.getName());
+			i++;
+		}
+	}
 	public void displayData(){
-		/*
+		Op.log(name);
 		for(Card c : this){
 			c.displayData();
-		}*/
+		}
+		
+	}
+	public void	displayContents(){
 		HashMap<String, Integer> quantities = new HashMap<>();
 		for(Card c : this){
 			if(quantities.containsKey(c.getName())){
@@ -286,7 +303,6 @@ public class Deck implements Iterable<Card>{
 			Op.log(key + ": x" + quantities.get(key));
 		}
 	}
-	
 	public Iterator<Card> iterator(){
 		return new DeckIterator();
 	}
