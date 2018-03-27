@@ -11,8 +11,7 @@ import java.awt.event.ActionListener;
 public class DeckTesterPanel extends JPanel{
 	private Deck d;
 	public DeckTesterPanel(){
-		d = new Deck("Test deck");
-		d.setSize(10);
+		d = new Deck("Test deck", 10);
 		
 		d.add(new Card("Keep me"), 5);
 		d.add(new Card("DELETE ME"), 5);
@@ -20,7 +19,7 @@ public class DeckTesterPanel extends JPanel{
 		JButton j1 = new JButton("Remove top card");
 		j1.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent e){
-				d.remove(0);
+				d.discardTopX(1);
 				d.displayOrder();
 			}
 		});

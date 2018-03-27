@@ -32,70 +32,48 @@ public class Deck implements Iterable<Card>{
 	private Card[] contents;
 	private int[] sortNumbers;
 	
-	// use this() to invoke other constructors
-	// TODO: finish 
-	public Deck(String n){
+	public Deck(String n, int max, Card[] c, int[] sort){
 		name = n;
-	}
-	
-	public Deck(Deck d){
-		name = d.getName();
-		maxSize = d.maxSize;
-		currentSize = d.currentSize;
-		accessibleSize = d.accessibleSize;
-		
-		contents = new Card[maxSize];
-		sortNumbers = new int[maxSize];
-		
-		for(int i = 0; i < d.currentSize; i++){
-			contents[i] = new Card(d.contents[i]);
-			sortNumbers[i] = d.sortNumbers[i];
-		}
-	}
-	
-	public Deck(int s){
-		contents = new Card[s];
-		sortNumbers = new int[s];
+		maxSize = max;
 		currentSize = 0;
 		accessibleSize = 0;
-		maxSize = s;
-		for(int i = 0; i < maxSize; i++){
-			sortNumbers[i] = -1;
+		contents = new Card[max];
+		sortNumbers = new int[max];
+		boolean error = false;
+		
+		for(int i = 0; i < max && !error; i++){
+			try{
+				contents[i] = new Card(c[i]);
+				sortNumbers[i] = sort[i];
+				currentSize++;
+				if(sort[i] >= 0){
+					accessibleSize++;
+				}
+			}catch(NullPointerException e){
+				Op.log("Parameters 'c' or 'sort' did not contain enough elements while invoking Deck constructor");
+				e.printStackTrace();
+				error = true;
+			}
 		}
+		fill();
+	}
+	public Deck(String n, int max){
+		this(n, max, new Card[max], new int[max]);
+	}
+	public Deck(Deck d){
+		this(d.getName(), d.maxSize, d.contents, d.sortNumbers);
 	}
 	
 	public String getName(){
 		return name;
 	}
 	
-	public void setSize(int s){
-		try{
-			// first copy old data, if it exists
-			Card[] oldContents = new Card[maxSize];
-			int[] oldSortNumbers = new int[maxSize];
-			int oldSize = maxSize;
-			for(int i = 0; i < oldSize; i++){
-				oldContents[i] = contents[i];
-				oldSortNumbers[i] = sortNumbers[i];
-			}
-			maxSize = s;
-			contents = new Card[s];
-			sortNumbers = new int[s];
-			currentSize = oldSize;
-			
-			for(int i = 0; i < oldSize; i++){
-				contents[i] = oldContents[i];
-				sortNumbers[i] = oldSortNumbers[i];
-			}
-		} catch (NullPointerException e){
-			maxSize = s;
-			contents = new Card[s];
-			sortNumbers = new int[s];
-			currentSize = 0;
-			accessibleSize = 0;
+	public void fill(){
+		// changes the index of undefined cards to -1
+		for(int i = currentSize; i < maxSize; i++){
+			sortNumbers[i] = -1;
 		}
 	}
-	
 	public void init(){
 		for(int i = 0; i < currentSize; i++){
 			sortNumbers[i] = 0;
@@ -104,14 +82,17 @@ public class Deck implements Iterable<Card>{
 		shuffle();
 	}
 	
-	//TODO: change to top of deck
+	//TODO: make different deckbuilding and discarding functions
+	
+	// deckBuilding functions
 	public void add(Card c){
-		// adds a card to the bottom of the deck
 		if(currentSize < maxSize){
 			contents[currentSize] = new Card(c);
 			sortNumbers[currentSize] = currentSize;
 			currentSize++;
 			accessibleSize++;
+		} else {
+			Op.log("Deck " + name + " doesn't have enough room to add a copy of " + c.getName());
 		}
 	}
 	public void add(Card c, int copies){
@@ -120,30 +101,25 @@ public class Deck implements Iterable<Card>{
 		}
 	}
 	
-	//doubling up on some numbers
-	public void remove(int ind){
-		// sets the index with a value of ind to -1
-		int index = getIndexOf(ind);
-		Op.log("Index: " + index);
-		if(sortNumbers[index] != -1){
-			sortNumbers[index] = -1;
+	// not working, index reassigning
+	public void remove(String n){
+		if(contains(n)){
+			currentSize--;
 			accessibleSize--;
+			int trueIndex = getIndexOf(n);
+			int compareIndex = sortNumbers[trueIndex];
 			for(int i = 0; i < currentSize; i++){
-				if(sortNumbers[i] > index){
-					sortNumbers[i]--;
+				if(i > trueIndex){
+					// overwrite the removed card, move others up
+					contents[i] = contents[i + 1];
+					sortNumbers[i] = sortNumbers[i + 1];
+				}
+				if(sortNumbers[i] > compareIndex){
+					sortNumbers[i]--; // erase gaps
 				}
 			}
-		}
-		Op.log(sortNumbers);
-		Op.log(" ");
-	}
-	public void remove(String n){
-		boolean found = false;
-		for(int i = 0; i < currentSize && !found; i++){
-			if(contents[i].getName() == n && sortNumbers[i] != -1){
-				found = true;
-				remove(sortNumbers[i]); //just i would cause error
-			}
+		} else {
+			Op.log("Deck " + name + " does not contain any copies of " + n);
 		}
 	}
 	public void remove(String n, int copies){
@@ -151,15 +127,20 @@ public class Deck implements Iterable<Card>{
 			remove(n);
 		}
 	}
-	
 	public void removeAll(String n){
 		while(contains(n)){
 			remove(n);
 		}
 	}
 	
+	public boolean contains(String n){
+		return getIndexOf(n) != -1;
+	}
+	
+	
+	//TODO: fix these to discard
 	public void discard(){
-		remove(0);
+		//remove(0);
 	}
 	public void discardTopX(int topX){
 		for(int i = 0; i < topX; i++){
@@ -167,15 +148,7 @@ public class Deck implements Iterable<Card>{
 		}
 	}
 	
-	public boolean contains(String n){
-		boolean found = false;
-		for(int i = 0; i < currentSize && !found; i++){
-			if(contents[i].getName() == n && sortNumbers[i] != -1){
-				found = true;
-			}
-		}
-		return found;
-	}
+	
 	
 	public Card get(int index){
 		Card ret = new Card("ERROR");
@@ -199,6 +172,18 @@ public class Deck implements Iterable<Card>{
 		return ret;
 	}
 	
+	public int getIndexOf(String n){
+		// returns the index of the first occurrence of card with name n
+		int ret = -1;
+		boolean found = false;
+		for(int i = 0; i < currentSize && !found; i++){
+			if(contents[i].getName() == n){
+				ret = i;
+				found = true;
+			}
+		}
+		return ret;
+	}
 	public int getIndexOf(int index){
 		int ret = -1;
 		boolean found = false;
@@ -216,7 +201,7 @@ public class Deck implements Iterable<Card>{
 	}
 	
 	public Deck topX(int x){
-		Deck d = new Deck(x);
+		Deck d = new Deck("Top " + x + " cards of " + name, x);
 		if(x > currentSize){
 			d = this;
 		} else {
