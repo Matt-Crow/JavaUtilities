@@ -34,11 +34,12 @@ public class DeckTesterPanel extends JPanel{
 		});
 		add(j2);
 		
-		JButton j3 = new JButton("Remove all copies of DELETE ME");
+		JButton j3 = new JButton("Remove all copies of DELETE ME, then put them back in");
 		j3.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent e){
 				d.removeAll("DELETE ME");
 				d.displayOrder();
+				d.add(new Card("DELETE ME"), 5);
 			}
 		});
 		add(j3);

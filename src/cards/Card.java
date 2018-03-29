@@ -39,6 +39,10 @@ public class Card {
 		return state;
 	}
 	
+	public void init(){
+		state = PlayState.IN_DECK;
+	}
+	
 	// debug
 	public void displayData(){
 		Op.log("<Card>");

@@ -5,6 +5,7 @@ import java.util.Random;
 import java.util.HashMap;
 
 import cards.Card;
+import cards.PlayState;
 import utilities.Op;
 
 public class Deck implements Iterable<Card>{
@@ -76,13 +77,13 @@ public class Deck implements Iterable<Card>{
 	}
 	public void init(){
 		for(int i = 0; i < currentSize; i++){
+			contents[i].init();
 			sortNumbers[i] = 0;
 		}
 		accessibleSize = currentSize;
 		shuffle();
 	}
 	
-	//TODO: make different deckbuilding and discarding functions
 	
 	// deckBuilding functions
 	public void add(Card c){
@@ -101,15 +102,17 @@ public class Deck implements Iterable<Card>{
 		}
 	}
 	
-	// not working, index reassigning
 	public void remove(String n){
 		if(contains(n)){
+			int trueIndex = getIndexOf(n);
+			Op.log("True index: " + trueIndex);
+			int compareIndex = sortNumbers[trueIndex];
+			Op.log("Compare index: " + compareIndex);
 			currentSize--;
 			accessibleSize--;
-			int trueIndex = getIndexOf(n);
-			int compareIndex = sortNumbers[trueIndex];
+			
 			for(int i = 0; i < currentSize; i++){
-				if(i > trueIndex){
+				if(i >= trueIndex){
 					// overwrite the removed card, move others up
 					contents[i] = contents[i + 1];
 					sortNumbers[i] = sortNumbers[i + 1];
@@ -118,6 +121,11 @@ public class Deck implements Iterable<Card>{
 					sortNumbers[i]--; // erase gaps
 				}
 			}
+			// erase excess data
+			contents[currentSize] = null;
+			sortNumbers[currentSize] = -1;
+			
+			displayOrder();
 		} else {
 			Op.log("Deck " + name + " does not contain any copies of " + n);
 		}
@@ -137,10 +145,16 @@ public class Deck implements Iterable<Card>{
 		return getIndexOf(n) != -1;
 	}
 	
-	
-	//TODO: fix these to discard
+	// discarding functions
 	public void discard(){
-		//remove(0);
+		get(0).setState(PlayState.IN_DISCARD);
+		sortNumbers[getIndexOf(0)] = -1;
+		accessibleSize--;
+		for(int i = 0; i < currentSize; i++){
+			if(sortNumbers[i] != -1){
+				sortNumbers[i]--;
+			}
+		}
 	}
 	public void discardTopX(int topX){
 		for(int i = 0; i < topX; i++){
@@ -159,7 +173,6 @@ public class Deck implements Iterable<Card>{
 		}
 		
 		for(int i = 0; i < currentSize && !found; i++){
-			//Op.log("sortNumbers[" + i + "]: " + sortNumbers[i]);
 			if(sortNumbers[i] == index){
 				found = true;
 				ret = contents[i];
@@ -167,35 +180,36 @@ public class Deck implements Iterable<Card>{
 		}
 		if(!found){
 			Op.log("Not found index: " + index);
+			Op.log("Existing indeces:");
+			for(int i = 0; i < currentSize; i++){
+				Op.log(sortNumbers[i]);
+			}
 			throw new IndexOutOfBoundsException();
 		}
 		return ret;
 	}
 	
 	public int getIndexOf(String n){
-		// returns the index of the first occurrence of card with name n
+		// returns the index of the first occurrence of card with name n in contents
 		int ret = -1;
 		boolean found = false;
 		for(int i = 0; i < currentSize && !found; i++){
-			if(contents[i].getName() == n){
+			if(contents[i].getName().equals(n)){
 				ret = i;
 				found = true;
 			}
 		}
 		return ret;
 	}
-	public int getIndexOf(int index){
+	public int getIndexOf(int fakeIndex){
+		//translates a number in sort numbers to its index
 		int ret = -1;
 		boolean found = false;
 		for(int i = 0; i < currentSize && !found; i++){
-			if(sortNumbers[i] == index){
+			if(sortNumbers[i] == fakeIndex){
 				ret = i;
 				found = true;
 			}
-		}
-		if(ret == -1){
-			Op.log("Not found index: " + index);
-			throw new IndexOutOfBoundsException();
 		}
 		return ret;
 	}
