@@ -31,6 +31,10 @@ public class Card {
 	public String getText(){
 		return text;
 	}
+	// this will be overridden for stuff like LOTRCard
+	public String getDesc(){
+		return text;
+	}
 	// TODO: use this in drawing and discarding
 	public void setState(PlayState s){
 		state = s;

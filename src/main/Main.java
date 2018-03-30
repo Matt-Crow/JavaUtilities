@@ -1,9 +1,8 @@
 package main;
-import cardPlaces.*;
+import deckBuilder.DeckBuilderFrame;
 
 public class Main {
 	public static void main(String[] args) {
-		//new ColorTesterFrame();
-		new DeckTesterFrame();
+		new DeckBuilderFrame();
 	}
 }
