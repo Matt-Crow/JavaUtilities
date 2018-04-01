@@ -1,11 +1,13 @@
 package cardPlaces;
 
+import java.lang.System;
 import java.util.Iterator;
 import java.util.Random;
 import java.util.HashMap;
 
 import cards.Card;
 import cards.PlayState;
+import deckBuilder.DeckContentViewer;
 import utilities.Op;
 
 public class Deck implements Iterable<Card>{
@@ -32,6 +34,8 @@ public class Deck implements Iterable<Card>{
 	
 	private Card[] contents;
 	private int[] sortNumbers;
+	
+	private DeckContentViewer contentViewer;
 	
 	public Deck(String n, int max, Card[] c, int[] sort){
 		name = n;
@@ -289,7 +293,8 @@ public class Deck implements Iterable<Card>{
 		}
 		
 	}
-	public void	displayContents(){
+	public String getContentsString(){
+		String ret = "";
 		HashMap<String, Integer> quantities = new HashMap<>();
 		for(Card c : this){
 			if(quantities.containsKey(c.getName())){
@@ -299,9 +304,19 @@ public class Deck implements Iterable<Card>{
 			}
 		}
 		for(String key : quantities.keySet()){
-			Op.log(key + ": x" + quantities.get(key));
+			ret += (key + ": x" + quantities.get(key) + System.lineSeparator());
 		}
+		return ret;
 	}
+	
+	public void setContentViewer(DeckContentViewer d){
+		contentViewer = d;
+		contentViewer.setDeck(this);
+	}
+	public DeckContentViewer getContentView(){
+		return contentViewer;
+	}
+	
 	public Iterator<Card> iterator(){
 		return new DeckIterator();
 	}

@@ -7,11 +7,11 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
 @SuppressWarnings("serial")
-public class CardMenuItem extends JMenuItem{
+public class AddCard extends JMenuItem{
 	private Card registeredCard;
 	private Deck registeredDeck;
 	
-	public CardMenuItem(Card c, Deck d){
+	public AddCard(Card c, Deck d){
 		super(c.getName());
 		registeredCard = c;
 		registeredDeck = d;
@@ -22,7 +22,7 @@ public class CardMenuItem extends JMenuItem{
 			}
 			public void mousePressed(MouseEvent e){
 				registeredDeck.add(registeredCard);
-				registeredDeck.displayContents();
+				registeredDeck.getContentView().update();
 			}
 		});
 	}

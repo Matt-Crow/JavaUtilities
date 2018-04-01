@@ -1,19 +1,32 @@
 package deckBuilder;
 
 import cardPlaces.Deck;
+
 import javax.swing.JPanel;
-import javax.swing.JMenuBar;
-import games.TestGame;
+import java.awt.GridLayout;
+
 
 @SuppressWarnings("serial")
 public class DeckBuilderPanel extends JPanel{
-	private Deck selectedDeck; //make some way to load previous decks
-	private JMenuBar menu;
+	/**
+	 * The DeckBuilderPanel is used by the user 
+	 * to create and customize decks, which they
+	 * can then use in the games this program
+	 * has.
+	 */
+	
+	private DeckBuilderMenuBar menu; // the menu along the top of the screen
+	private Deck selectedDeck;
+	private DeckContentViewer deckContents;
 	
 	public DeckBuilderPanel(){
+		super();
+		setLayout(new GridLayout());
 		selectedDeck = new Deck("New Deck", 50);
-		menu = new JMenuBar();
+		deckContents = new DeckContentViewer(selectedDeck);
+		selectedDeck.setContentViewer(deckContents);
+		menu = new DeckBuilderMenuBar(selectedDeck);
 		add(menu);
-		menu.add(new CardMenu(new TestGame(), selectedDeck));
+		add(deckContents);
 	}
 }

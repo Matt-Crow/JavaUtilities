@@ -6,12 +6,11 @@ import cardPlaces.Deck;
 import games.AbstractGame;
 
 @SuppressWarnings("serial")
-public class CardMenu extends JMenu{
-	
-	public CardMenu(AbstractGame a, Deck d){
-		super("card");
+public class AddCardMenu extends JMenu{
+	public AddCardMenu(AbstractGame a, Deck d){
+		super("add");
 		for(Card c : a.getCards()){
-			add(new CardMenuItem(c, d));
+			add(new AddCard(c, d));
 		}
 	}
 }
