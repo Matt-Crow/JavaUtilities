@@ -37,12 +37,15 @@ public class Draw extends JPanel {
 	}
 	@Override
     public void paintComponent(Graphics g) {
-        super.paintComponent(g);
+		super.paintComponent(g);
+		
+		int size = (getWidth() + getHeight()) / 5;
+		
         g.setColor(Color.PINK);
         for(double i = 0; i < theta; i += 0.001){
-        	r = 100 * Math.sin(petalCount * i);
-        	g.fillRect(250 + (int) (r * Math.cos(i)), 250 + (int)(r * Math.sin( i)), 1, 1);
+        	r = size * Math.sin(petalCount * i);
+        	g.fillRect(getWidth() / 2 + (int) (r * Math.cos(i)), getHeight() / 2 + (int)(r * Math.sin( i)), 1, 1);
         }
-        theta += 0.001;
+        theta += 0.005;
     }
 }
