@@ -43,8 +43,12 @@ public class Draw extends JPanel {
 		
         g.setColor(Color.PINK);
         for(double i = 0; i < theta; i += 0.001){
-        	r = size * Math.sin(petalCount * i);
-        	g.fillRect(getWidth() / 2 + (int) (r * Math.cos(i)), getHeight() / 2 + (int)(r * Math.sin( i)), 1, 1);
+        	try{
+        		r = size * Math.sin(petalCount * i);
+        		g.fillRect(getWidth() / 2 + (int) (r * Math.cos(i)), getHeight() / 2 + (int)(r * Math.sin( i)), 1, 1);
+        	} catch(ArithmeticException e){
+        		e.printStackTrace();
+        	}
         }
         theta += 0.005;
     }
