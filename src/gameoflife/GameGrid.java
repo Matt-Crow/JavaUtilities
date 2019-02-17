@@ -4,8 +4,6 @@ import javax.swing.JPanel;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.event.ActionEvent;
-import java.awt.event.KeyAdapter;
-import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import javax.swing.AbstractAction;
@@ -19,13 +17,8 @@ class GameGrid extends JPanel implements MouseListener{
     
     public GameGrid() {
         super();
-        SIZE = 10;
+        SIZE = 100;
         grid = new short[SIZE][SIZE];
-        for(int i = 0; i < SIZE; i++){
-            for(int j = 0; j < SIZE; j++){
-                grid[i][j] = (short) (i * j % 2);
-            }
-        }
         
         addMouseListener(this);
         getInputMap(WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke("SPACE"), "update");
@@ -39,18 +32,16 @@ class GameGrid extends JPanel implements MouseListener{
     
     private int adjCount(int x, int y){
         int count = 0;
-        
         for(int i = x - 1; i <= x + 1; i++){
             for(int j = y - 1; j <= y + 1; j++){
-                if(i != x && j != y){
+                if(!(i == x && j == y)){
                     //don't count self as adj
-                    if(i > 0 && i < SIZE && j > 0 && j < SIZE){
+                    if(i >= 0 && i < SIZE && j >= 0 && j < SIZE){
                         count += grid[i][j];
                     }
                 }
             }
         }
-        System.out.println(count);
         return count;
     }
     
@@ -80,7 +71,9 @@ class GameGrid extends JPanel implements MouseListener{
         
         g.setColor(Color.black);
         for(int i = 0; i < SIZE; i++){
+            g.fillRect(i * cellSize, 0, 1, cellSize * SIZE);
             for(int j = 0; j < SIZE; j++){
+                g.fillRect(0, j * cellSize, cellSize * SIZE, 1);
                 if(grid[i][j] == 1){
                     g.fillRect(i * cellSize, j * cellSize, cellSize, cellSize);
                 }
