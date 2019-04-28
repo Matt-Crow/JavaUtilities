@@ -10,6 +10,7 @@ import java.awt.event.*;
 import java.util.Iterator;
 import java.util.LinkedList;
 import javax.swing.JButton;
+import javax.swing.JFileChooser;
 import javax.swing.SwingUtilities;
 
 /**
@@ -17,7 +18,7 @@ import javax.swing.SwingUtilities;
  * @author Matt
  */
 public class Whiteboard extends JPanel{
-    private final LinkedList<Point> points;
+    private LinkedList<Point> points;
     private int MARKER_SIZE = 10;
     
     public Whiteboard(){
@@ -28,6 +29,17 @@ public class Whiteboard extends JPanel{
         SaveButton s = new SaveButton();
         s.setPointsToSave(points);
         add(s);
+        
+        //temp
+        JButton load = new JButton("Load");
+        load.addActionListener((a)->{
+            JFileChooser choose = new JFileChooser();
+            choose.setFileSelectionMode(JFileChooser.FILES_ONLY);
+            if(choose.showOpenDialog(this) == JFileChooser.APPROVE_OPTION){
+                points = new MWBFile(choose.getSelectedFile().getAbsolutePath()).read();
+            }
+        });
+        add(load);
         
         setBackground(Color.WHITE);
         initMouseAdapter();
