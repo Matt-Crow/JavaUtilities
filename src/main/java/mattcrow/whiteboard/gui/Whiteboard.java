@@ -1,13 +1,17 @@
 package mattcrow.whiteboard.gui;
 
+import io.MWBFile;
 import misc.Point;
 
 import javax.swing.JPanel;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.event.*;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.Iterator;
 import java.util.LinkedList;
+import javax.swing.JButton;
 import javax.swing.SwingUtilities;
 
 /**
@@ -20,7 +24,18 @@ public class Whiteboard extends JPanel{
     
     public Whiteboard(){
         super();
+        
         points = new LinkedList<>();
+        
+        //temporary
+        JButton j = new JButton("save");
+        j.addActionListener((a)->{
+            MWBFile f = new MWBFile("test.mwb");
+            f.write(points);
+            System.out.println(f.getAbsolutePath());
+        });
+        add(j);
+        
         setBackground(Color.WHITE);
         initMouseAdapter();
         repaint();
