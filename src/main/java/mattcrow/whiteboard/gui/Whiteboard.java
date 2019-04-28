@@ -7,8 +7,6 @@ import javax.swing.JPanel;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.event.*;
-import java.nio.file.Files;
-import java.nio.file.Paths;
 import java.util.Iterator;
 import java.util.LinkedList;
 import javax.swing.JButton;
@@ -27,14 +25,9 @@ public class Whiteboard extends JPanel{
         
         points = new LinkedList<>();
         
-        //temporary
-        JButton j = new JButton("save");
-        j.addActionListener((a)->{
-            MWBFile f = new MWBFile("test.mwb");
-            f.write(points);
-            System.out.println(f.getAbsolutePath());
-        });
-        add(j);
+        SaveButton s = new SaveButton();
+        s.setPointsToSave(points);
+        add(s);
         
         setBackground(Color.WHITE);
         initMouseAdapter();
