@@ -40,7 +40,7 @@ public class Pane extends JPanel{
                 try {
                     f.createNewFile();
                 } catch (IOException ex) {
-                    ex.printStackTrace();
+                    reportError(ex);
                 }
                 openFile(f);
             }
@@ -99,7 +99,7 @@ public class Pane extends JPanel{
             read.close();
             textPlace.setText(b.toString());
         } catch (IOException ex) {
-            ex.printStackTrace();
+            reportError(ex);
         }
     }
     public void saveToFile(File f){
@@ -109,7 +109,19 @@ public class Pane extends JPanel{
             write.write(textPlace.getText());
             write.close();
         } catch(IOException ex){
-            ex.printStackTrace();
+            reportError(ex);
         }
+    }
+    
+    private void reportError(Exception ex){
+        JTextArea text = new JTextArea(ex.getMessage());
+        text.setEditable(false);
+        
+        JScrollPane scroll = new JScrollPane(text);
+        scroll.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
+        scroll.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
+        JOptionPane.showMessageDialog(this, scroll, "Nooooo! Bad!", JOptionPane.ERROR_MESSAGE);
+        ex.printStackTrace();
+        //save to a file
     }
 }
