@@ -1,10 +1,7 @@
 package fakenotepad;
+import java.awt.BorderLayout;
 import java.awt.Color;
-import java.awt.GridBagConstraints;
-import java.awt.GridBagLayout;
 import java.io.*;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.*;
 
 /**
@@ -12,23 +9,16 @@ import javax.swing.*;
  * @author Matt
  */
 public class Pane extends JPanel{
-    private JTextArea textPlace;
+    private final JTextArea textPlace;
     private File selectedFile;
     public Pane(){
         super();
         selectedFile = null;
         
-        
-        setLayout(new GridBagLayout());
-        GridBagConstraints gbc = new GridBagConstraints();
+        setLayout(new BorderLayout());
         
         JMenuBar menu = new JMenuBar();
-        gbc.gridx = 0;
-        gbc.gridy = 0;
-        gbc.weightx = 1;
-        gbc.weighty = 1;
-        gbc.fill = GridBagConstraints.BOTH;
-        add(menu, gbc.clone());
+        add(menu, BorderLayout.PAGE_START);
         
         JButton create = new JButton("Create a new file");
         create.addActionListener((e)->{
@@ -75,13 +65,10 @@ public class Pane extends JPanel{
         menu.add(save);
         
         textPlace = new JTextArea("no file selected");
+        textPlace.setTabSize(4);
+        
         JScrollPane scrolly = new JScrollPane(textPlace);
-        gbc.gridx = 0;
-        gbc.gridy = 1;
-        gbc.weightx = 1;
-        gbc.weighty = 9;
-        gbc.fill = GridBagConstraints.BOTH;
-        add(scrolly, gbc);
+        add(scrolly, BorderLayout.CENTER);
         
         revalidate();
         repaint();
