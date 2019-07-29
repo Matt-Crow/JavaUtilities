@@ -1,6 +1,7 @@
 package fakenotepad;
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Font;
 import java.io.*;
 import javax.swing.*;
 
@@ -10,6 +11,8 @@ import javax.swing.*;
  */
 public class Pane extends JPanel{
     private final JTextArea textPlace;
+    private final JScrollPane scrolly;
+    private final JLabel fileName;
     private File selectedFile;
     public Pane(){
         super();
@@ -19,6 +22,9 @@ public class Pane extends JPanel{
         
         JMenuBar menu = new JMenuBar();
         add(menu, BorderLayout.PAGE_START);
+        
+        fileName = new JLabel("No file selected");
+        menu.add(fileName);
         
         JButton create = new JButton("Create a new file");
         create.addActionListener((e)->{
@@ -67,7 +73,9 @@ public class Pane extends JPanel{
         textPlace = new JTextArea("no file selected");
         textPlace.setTabSize(4);
         
-        JScrollPane scrolly = new JScrollPane(textPlace);
+        textPlace.setFont(new Font("monospaced", Font.PLAIN, 14));
+        
+        scrolly = new JScrollPane(textPlace);
         add(scrolly, BorderLayout.CENTER);
         
         revalidate();
@@ -77,6 +85,7 @@ public class Pane extends JPanel{
     
     public void openFile(File f){
         selectedFile = f;
+        fileName.setText(f.getAbsolutePath());
         try {
             BufferedReader read = new BufferedReader(new InputStreamReader(new FileInputStream(f)));
             StringBuilder b = new StringBuilder();
@@ -85,12 +94,16 @@ public class Pane extends JPanel{
             }
             read.close();
             textPlace.setText(b.toString());
+            SwingUtilities.invokeLater(()->{
+                scrolly.getVerticalScrollBar().setValue(0);
+            });
         } catch (IOException ex) {
             reportError(ex);
         }
     }
     public void saveToFile(File f){
         selectedFile = f;
+        fileName.setText(f.getAbsolutePath());
         try{
             BufferedWriter write = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(f)));
             write.write(textPlace.getText());
