@@ -1,5 +1,6 @@
 package start;
 
+import io.AudioInput;
 import java.util.Arrays;
 import javax.sound.sampled.AudioFormat;
 import javax.sound.sampled.AudioSystem;
@@ -17,16 +18,17 @@ public class Main {
         AudioFormat format = new AudioFormat(8000.0f, 16, 1, true, true);
         
         try {
-            TargetDataLine microphone = AudioSystem.getTargetDataLine(format);
+            AudioInput microphone = new AudioInput(format);
+            //TargetDataLine microphone = AudioSystem.getTargetDataLine(format);
             SourceDataLine speakers = AudioSystem.getSourceDataLine(format);
             
-            DataLine.Info microphoneInfo = new DataLine.Info(TargetDataLine.class, format);
-            microphone = (TargetDataLine)AudioSystem.getLine(microphoneInfo);
+            //DataLine.Info microphoneInfo = new DataLine.Info(TargetDataLine.class, format);
+            //microphone = (TargetDataLine)AudioSystem.getLine(microphoneInfo);
             
             DataLine.Info speakerInfo = new DataLine.Info(SourceDataLine.class, format);
             speakers = (SourceDataLine)AudioSystem.getLine(speakerInfo);
             
-            microphone.open(format);
+            //microphone.open(format);
             speakers.open(format);
             microphone.start();
             speakers.start();
@@ -35,10 +37,9 @@ public class Main {
             int numBytesRead = 0;
             byte[] buff = new byte[microphone.getBufferSize()];
             while(i < 99999){
-                numBytesRead = microphone.read(buff, 0, microphone.getBufferSize());
+                numBytesRead = microphone.read(buff);
                 speakers.write(buff, 0, numBytesRead);
                 i++;
-                System.out.println(Arrays.toString(buff));
             }
             speakers.drain();
             microphone.close();
