@@ -1,6 +1,7 @@
 package start;
 
 import io.AudioInput;
+import io.AudioOutput;
 import java.util.Arrays;
 import javax.sound.sampled.AudioFormat;
 import javax.sound.sampled.AudioSystem;
@@ -19,17 +20,8 @@ public class Main {
         
         try {
             AudioInput microphone = new AudioInput(format);
-            //TargetDataLine microphone = AudioSystem.getTargetDataLine(format);
-            SourceDataLine speakers = AudioSystem.getSourceDataLine(format);
+            AudioOutput speakers = new AudioOutput(format);
             
-            //DataLine.Info microphoneInfo = new DataLine.Info(TargetDataLine.class, format);
-            //microphone = (TargetDataLine)AudioSystem.getLine(microphoneInfo);
-            
-            DataLine.Info speakerInfo = new DataLine.Info(SourceDataLine.class, format);
-            speakers = (SourceDataLine)AudioSystem.getLine(speakerInfo);
-            
-            //microphone.open(format);
-            speakers.open(format);
             microphone.start();
             speakers.start();
             
@@ -38,10 +30,9 @@ public class Main {
             byte[] buff = new byte[microphone.getBufferSize()];
             while(i < 99999){
                 numBytesRead = microphone.read(buff);
-                speakers.write(buff, 0, numBytesRead);
+                speakers.write(buff, numBytesRead);
                 i++;
             }
-            speakers.drain();
             microphone.close();
             speakers.close();
         } catch (LineUnavailableException ex) {
