@@ -1,14 +1,10 @@
 package start;
 
+import gui.Frame;
 import io.AudioInput;
 import io.AudioOutput;
-import java.util.Arrays;
 import javax.sound.sampled.AudioFormat;
-import javax.sound.sampled.AudioSystem;
-import javax.sound.sampled.DataLine;
 import javax.sound.sampled.LineUnavailableException;
-import javax.sound.sampled.SourceDataLine;
-import javax.sound.sampled.TargetDataLine;
 
 /**
  *
@@ -16,6 +12,8 @@ import javax.sound.sampled.TargetDataLine;
  */
 public class Main {
     public static void main(String[] args){
+        new Frame();
+        
         AudioFormat format = new AudioFormat(8000.0f, 16, 1, true, true);
         
         try {
