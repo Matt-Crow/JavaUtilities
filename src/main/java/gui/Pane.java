@@ -2,12 +2,16 @@ package gui;
 
 import java.awt.Color;
 import java.net.InetAddress;
+import java.net.SocketException;
 import java.net.UnknownHostException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
+import net.Backend;
 
 /**
  *
@@ -40,6 +44,15 @@ public class Pane extends JPanel{
         connect.add(ipInput);
         
         JButton connButton = new JButton("connect");
+        connButton.addActionListener((e)->{
+            try {
+                new Backend().connect(ipInput.getText());
+            } catch (SocketException ex) {
+                ex.printStackTrace();
+            } catch (UnknownHostException ex) {
+                ex.printStackTrace();
+            }
+        });
         connect.add(connButton);
         
         add(connect);
