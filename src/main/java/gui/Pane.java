@@ -4,8 +4,6 @@ import java.awt.Color;
 import java.net.InetAddress;
 import java.net.SocketException;
 import java.net.UnknownHostException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JLabel;
@@ -18,10 +16,14 @@ import net.Backend;
  * @author Matt
  */
 public class Pane extends JPanel{
-    public Pane(){
+    private final Backend backend;
+    
+    public Pane() throws SocketException{
         super();
         setBackground(Color.black);
         setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
+        
+        backend = new Backend();
         
         String ip = "unknown";
         try{
@@ -46,9 +48,7 @@ public class Pane extends JPanel{
         JButton connButton = new JButton("connect");
         connButton.addActionListener((e)->{
             try {
-                new Backend().connect(ipInput.getText());
-            } catch (SocketException ex) {
-                ex.printStackTrace();
+                backend.connect(ipInput.getText());
             } catch (UnknownHostException ex) {
                 ex.printStackTrace();
             }
