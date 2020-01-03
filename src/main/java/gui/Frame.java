@@ -1,6 +1,5 @@
 package gui;
 
-import java.net.SocketException;
 import javax.sound.sampled.LineUnavailableException;
 import javax.swing.JFrame;
 
@@ -9,7 +8,7 @@ import javax.swing.JFrame;
  * @author Matt Crow
  */
 public class Frame extends JFrame{
-    public Frame() throws SocketException, LineUnavailableException{
+    public Frame() throws LineUnavailableException{
         setSize(500, 300);
         Pane p = new Pane();
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);

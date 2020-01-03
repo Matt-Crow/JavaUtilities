@@ -16,7 +16,10 @@ import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JTextArea;
 import javax.swing.JTextField;
+import javax.swing.ScrollPaneConstants;
 import net.Connection;
 
 /**
@@ -27,8 +30,9 @@ public class Pane extends JPanel implements WindowListener{
     private Connection conn;
     private AudioInput microphone;
     private AudioOutput speakers;
+    private JTextArea msgs;
     
-    public Pane() throws SocketException, LineUnavailableException{
+    public Pane() throws LineUnavailableException{
         super();
         
         AudioFormat format = new AudioFormat(8000.0f, 16, 1, true, true);
@@ -60,24 +64,37 @@ public class Pane extends JPanel implements WindowListener{
         
         JButton connButton = new JButton("connect");
         connButton.addActionListener((e)->{
-            try {
-                conn = new Connection(microphone, speakers, InetAddress.getByName(ipInput.getText()));
-                microphone.start();
-                speakers.start();
-                conn.open();
-            } catch (UnknownHostException ex) {
-                ex.printStackTrace();
-            } catch (SocketException ex) {
-                ex.printStackTrace();
-            } catch (LineUnavailableException ex) {
-                ex.printStackTrace();
-            }
+            connect(ipInput.getText());
         });
         connect.add(connButton);
         
         add(connect);
+        
+        msgs = new JTextArea("Messages appear here");
+        msgs.setEditable(false);
+        msgs.setLineWrap(true);
+        msgs.setWrapStyleWord(true);
+        JScrollPane scrolly = new JScrollPane(msgs);
+        scrolly.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
+        add(scrolly);
     }
 
+    public void connect(String ipAddr){
+        try{
+            conn = new Connection(microphone, speakers, InetAddress.getByName(ipAddr));
+            microphone.start();
+            speakers.start();
+            conn.open();
+        } catch (UnknownHostException ex) {
+            msgs.append("\n Unknown host: " + ipAddr);
+        } catch (SocketException ex) {
+            msgs.append("\n Socket error. See console for output");
+            ex.printStackTrace();
+        } catch (LineUnavailableException ex) {
+            msgs.append("\n Line unavailable");
+        }
+    }
+    
     @Override
     public void windowOpened(WindowEvent e) {}
 

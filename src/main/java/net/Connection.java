@@ -58,14 +58,15 @@ public class Connection {
         Thread outputThread = new Thread(){
             @Override
             public void run(){
-                DatagramPacket buffer;
+                int size = in.getBufferSize();
+                byte[] buff = new byte[size];
+                int bytesRead;
                 while(isOpen){
-                    buffer = new DatagramPacket(new byte[256], 256);
                     try {
                         //wait for the socket to receive,
                         //copy into buffer
-                        socket.receive(buffer);
-                        out.write(buffer.getData(), buffer.getLength());
+                        bytesRead = receive(buff, in.getBufferSize());
+                        out.write(buff, bytesRead);
                     } catch (IOException ex) {
                         ex.printStackTrace();
                     }
