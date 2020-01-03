@@ -21,6 +21,12 @@ repositories {
     //   http://www.gradle.org/docs/current/userguide/dependency_management.html#sec:repositories
 }
 
+jar {
+    manifest{
+        attributes "Main-Class": "start.Main"
+    }
+}
+
 dependencies {
     // TODO: Add dependencies here ...
     // You can read more about how to add dependency here:
