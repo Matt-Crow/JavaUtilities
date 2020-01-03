@@ -3,6 +3,7 @@ package start;
 import gui.Frame;
 import io.AudioInput;
 import io.AudioOutput;
+import java.net.SocketException;
 import javax.sound.sampled.AudioFormat;
 import javax.sound.sampled.LineUnavailableException;
 
@@ -11,9 +12,9 @@ import javax.sound.sampled.LineUnavailableException;
  * @author Matt
  */
 public class Main {
-    public static void main(String[] args){
+    public static void main(String[] args) throws SocketException, LineUnavailableException{
         new Frame();
-        
+        /*
         AudioFormat format = new AudioFormat(8000.0f, 16, 1, true, true);
         
         try {
@@ -36,6 +37,6 @@ public class Main {
         } catch (LineUnavailableException ex) {
             ex.printStackTrace();
         }
-        
+        */
     }
 }
