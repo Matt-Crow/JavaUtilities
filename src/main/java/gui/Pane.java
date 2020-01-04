@@ -20,6 +20,7 @@ import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.ScrollPaneConstants;
+import javax.swing.SwingUtilities;
 import net.Connection;
 
 /**
@@ -30,7 +31,8 @@ public class Pane extends JPanel implements WindowListener{
     private Connection conn;
     private AudioInput microphone;
     private AudioOutput speakers;
-    private JTextArea msgs;
+    private final JPanel connect;
+    private final JTextArea msgs;
     
     public Pane() throws LineUnavailableException{
         super();
@@ -49,10 +51,12 @@ public class Pane extends JPanel implements WindowListener{
             ex.printStackTrace();
         }
         JLabel yourIp = new JLabel("Your IP address is " + ip);
+        yourIp.setForeground(Color.black);
         yourIp.setBackground(Color.green);
+        yourIp.setOpaque(true);
         add(yourIp);
         
-        JPanel connect = new JPanel();
+        connect = new JPanel();
         connect.setLayout(new BoxLayout(connect, BoxLayout.Y_AXIS));
         connect.setBackground(Color.yellow);
         
@@ -61,6 +65,9 @@ public class Pane extends JPanel implements WindowListener{
         
         JTextField ipInput = new JTextField("000.000.000.000");
         connect.add(ipInput);
+        SwingUtilities.invokeLater(()->{
+            ipInput.requestFocus();
+        });
         
         JButton connButton = new JButton("connect");
         connButton.addActionListener((e)->{
@@ -80,18 +87,25 @@ public class Pane extends JPanel implements WindowListener{
     }
 
     public void connect(String ipAddr){
+        if(conn != null){
+            conn.close();
+        }
         try{
             conn = new Connection(microphone, speakers, InetAddress.getByName(ipAddr));
             microphone.start();
             speakers.start();
             conn.open();
+            connect.setBackground(Color.green);
         } catch (UnknownHostException ex) {
             msgs.append("\n Unknown host: " + ipAddr);
+            connect.setBackground(Color.red);
         } catch (SocketException ex) {
             msgs.append("\n Socket error. See console for output");
+            connect.setBackground(Color.red);
             ex.printStackTrace();
         } catch (LineUnavailableException ex) {
             msgs.append("\n Line unavailable");
+            connect.setBackground(Color.red);
         }
     }
     

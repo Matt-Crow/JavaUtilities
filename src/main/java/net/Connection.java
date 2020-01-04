@@ -28,6 +28,10 @@ public class Connection {
     }
     
     public void open() throws SocketException{
+        if(isOpen){
+            return;
+        }
+        
         socket = new DatagramSocket(4000);
         isOpen = true;
         /*
@@ -77,6 +81,10 @@ public class Connection {
     }
     
     public void close(){
+        if(!isOpen){
+            return;
+        }
+        
         isOpen = false;
         if(socket != null){
             socket.close();

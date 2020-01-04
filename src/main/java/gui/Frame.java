@@ -9,9 +9,11 @@ import javax.swing.JFrame;
  */
 public class Frame extends JFrame{
     public Frame() throws LineUnavailableException{
+        super();
         setSize(500, 300);
         Pane p = new Pane();
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setTitle("Matt's Voice Over UDP test");
         setContentPane(p);
         setVisible(true);
         addWindowListener(p);
