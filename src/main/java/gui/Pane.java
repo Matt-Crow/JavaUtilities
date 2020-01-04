@@ -6,8 +6,11 @@ import java.awt.Color;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
 import java.net.InetAddress;
+import java.net.NetworkInterface;
 import java.net.SocketException;
 import java.net.UnknownHostException;
+import java.util.ArrayList;
+import java.util.Enumeration;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.sound.sampled.AudioFormat;
@@ -16,11 +19,14 @@ import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JScrollBar;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.ScrollPaneConstants;
 import javax.swing.SwingUtilities;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
 import net.Connection;
 
 /**
@@ -44,17 +50,46 @@ public class Pane extends JPanel implements WindowListener{
         setBackground(Color.black);
         setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
         
-        String ip = "unknown";
-        try{
-            ip = InetAddress.getLocalHost().getHostAddress();
-        } catch(UnknownHostException ex){
+        msgs = new JTextArea("Messages appear here");
+        msgs.setEditable(false);
+        msgs.setLineWrap(true);
+        msgs.setWrapStyleWord(true);
+        JScrollPane scrolly = new JScrollPane(msgs);
+        scrolly.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
+        add(scrolly);
+        msgs.append("\nIP addresses for this machine include:");
+        try {
+            for(String thisIp : getInetAddrs()){
+                msgs.append("\n" + thisIp);
+            }
+        } catch (UnknownHostException ex) {
+            msgs.append("\nError: unknown host");
+        } catch (SocketException ex) {
             ex.printStackTrace();
         }
-        JLabel yourIp = new JLabel("Your IP address is " + ip);
-        yourIp.setForeground(Color.black);
-        yourIp.setBackground(Color.green);
-        yourIp.setOpaque(true);
-        add(yourIp);
+        msgs.getDocument().addDocumentListener(new DocumentListener(){
+            @Override
+            public void insertUpdate(DocumentEvent e) {
+                scrollDown();
+            }
+
+            @Override
+            public void removeUpdate(DocumentEvent e) {
+                scrollDown();
+            }
+
+            @Override
+            public void changedUpdate(DocumentEvent e) {
+                scrollDown();
+            }
+        
+            private void scrollDown(){
+                SwingUtilities.invokeLater(()->{
+                    JScrollBar b = scrolly.getVerticalScrollBar();
+                    b.setValue(b.getMaximum());
+                });
+            }
+        });
         
         connect = new JPanel();
         connect.setLayout(new BoxLayout(connect, BoxLayout.Y_AXIS));
@@ -76,14 +111,6 @@ public class Pane extends JPanel implements WindowListener{
         connect.add(connButton);
         
         add(connect);
-        
-        msgs = new JTextArea("Messages appear here");
-        msgs.setEditable(false);
-        msgs.setLineWrap(true);
-        msgs.setWrapStyleWord(true);
-        JScrollPane scrolly = new JScrollPane(msgs);
-        scrolly.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
-        add(scrolly);
     }
 
     public void connect(String ipAddr){
@@ -135,4 +162,44 @@ public class Pane extends JPanel implements WindowListener{
 
     @Override
     public void windowDeactivated(WindowEvent e) {}
+    
+    /**
+     * 
+     * @return all IP addresses that can be
+     * used to connect to this computer
+     */
+    private String[] getInetAddrs() throws UnknownHostException, SocketException{
+        ArrayList<String> ret = new ArrayList<>();
+        
+        for(InetAddress addr : InetAddress.getAllByName(InetAddress.getLocalHost().getHostName())){
+            if(!addr.isLoopbackAddress()){
+                ret.add(addr.getHostAddress());
+            }
+        }
+        /*
+        Enumeration<NetworkInterface> netInts = NetworkInterface.getNetworkInterfaces();
+        NetworkInterface inter;
+        Enumeration<InetAddress> addrs;
+        InetAddress addr;
+        while(netInts.hasMoreElements()){
+            inter = netInts.nextElement();
+            //System.out.printf("NetworkInterface %s\n", inter.getDisplayName());
+            addrs = inter.getInetAddresses();
+            while(addrs.hasMoreElements()){
+                addr = addrs.nextElement();
+                if(!addr.isLoopbackAddress()){
+                    //System.out.printf("-IP %s\n", addr.getHostAddress());
+                    ret.add(addr.getHostAddress());
+                }
+            }
+        }*/
+        
+        return ret.toArray(new String[ret.size()]);
+    }
+    
+    public static void main(String[] args) throws SocketException, LineUnavailableException, UnknownHostException{
+        for(String ip : new Pane().getInetAddrs()){
+            System.out.println(ip);
+        }
+    }
 }

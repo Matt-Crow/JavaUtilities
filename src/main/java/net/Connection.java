@@ -69,7 +69,7 @@ public class Connection {
                     try {
                         //wait for the socket to receive,
                         //copy into buffer
-                        bytesRead = receive(buff, in.getBufferSize());
+                        bytesRead = receive(buff, size);
                         out.write(buff, bytesRead);
                     } catch (IOException ex) {
                         ex.printStackTrace();
