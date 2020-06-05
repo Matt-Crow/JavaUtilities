@@ -1,6 +1,9 @@
 package gui;
 
+import java.awt.GridLayout;
 import java.awt.Toolkit;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import javax.swing.JFrame;
 
 /**
@@ -17,16 +20,28 @@ public final class MainWindow extends JFrame{
         }
         
         setTitle("Matt's Simple Chat App");
-        //setContentPane();
+        setLayout(new GridLayout(1, 1));
+        setContentPane(new MainPane());
         
         setDefaultCloseOperation(EXIT_ON_CLOSE);
-        //TODO: break connections before closing
         
         setSize(
             (int) Toolkit.getDefaultToolkit().getScreenSize().getWidth(), 
             (int) Toolkit.getDefaultToolkit().getScreenSize().getHeight() - Toolkit.getDefaultToolkit().getScreenInsets(getGraphicsConfiguration()).bottom
         );
+        
+        addWindowListener(new WindowAdapter(){
+            @Override
+            public void windowClosing(WindowEvent e){
+                // move this to the connection classes,
+                // have them add themselves as window listeners
+                // this should break all active connections
+            }
+        });
+        
         setVisible(true);
+        revalidate();
+        repaint();
     }
     
     public static final MainWindow getInstance(){
