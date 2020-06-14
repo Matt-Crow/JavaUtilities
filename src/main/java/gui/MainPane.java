@@ -13,5 +13,7 @@ public class MainPane extends JPanel{
         setBackground(Color.BLACK);
         setLayout(new GridLayout(1, 1));
         setVisible(true);
+        
+        add(new TextChatComponent());
     }
 }
