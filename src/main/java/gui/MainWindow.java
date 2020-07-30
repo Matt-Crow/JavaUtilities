@@ -4,7 +4,9 @@ import java.awt.GridLayout;
 import java.awt.Toolkit;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.io.IOException;
 import javax.swing.JFrame;
+import net.ChatServer;
 
 /**
  *
@@ -33,9 +35,16 @@ public final class MainWindow extends JFrame{
         addWindowListener(new WindowAdapter(){
             @Override
             public void windowClosing(WindowEvent e){
-                // move this to the connection classes,
-                // have them add themselves as window listeners
-                // this should break all active connections
+                try {
+                    // move this to the connection classes,
+                    // have them add themselves as window listeners
+                    // this should break all active connections
+                    ChatServer.getInstance().shutDown();
+                } catch (IOException ex) {
+                    ex.printStackTrace();
+                } catch (NullPointerException ex){
+                    System.out.println("Server wasn't created via validateServer");
+                }
             }
         });
         

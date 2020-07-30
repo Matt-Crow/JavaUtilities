@@ -7,7 +7,10 @@ import java.net.ServerSocket;
 import java.net.Socket;
 import java.net.SocketException;
 import java.util.Enumeration;
+import java.util.HashMap;
 import java.util.HashSet;
+import java.util.stream.Collectors;
+import javax.swing.JOptionPane;
 
 /**
  * https://stackoverflow.com/questions/2983835/how-can-i-interrupt-a-serversocket-accept-method
@@ -16,6 +19,7 @@ import java.util.HashSet;
 public class ChatServer {
     private final ServerSocket server;
     private final HashSet<InetAddress> validIpAddrs;
+    private final HashMap<InetAddress, Connection> ipAddrToConn;
     private Thread connectionListenerThread;
     
     private static final int PORT = 4999;
@@ -27,6 +31,7 @@ public class ChatServer {
         }
         server = new ServerSocket(PORT);
         validIpAddrs = findValidIps();
+        ipAddrToConn = new HashMap<>();
         startConnectionListenerThread();
     }
     
@@ -77,6 +82,7 @@ public class ChatServer {
                         try {
                             remoteComputer = server.accept();
                             System.out.println("Accept " + remoteComputer.getInetAddress().getHostAddress());
+                            connect(remoteComputer);
                         } catch (SocketException ex){
                             System.out.println("Server is closed. Breaking.");
                             break;
@@ -88,11 +94,31 @@ public class ChatServer {
                 }
             };
             connectionListenerThread.start();
-            
         }
     }
     
-    public void shutDown() throws IOException{
+    public final String[] getIpAddrs(){
+        return validIpAddrs.stream().map((InetAddress ina)->{
+            return ina.getHostAddress();
+        }).collect(Collectors.toList()).toArray(new String[]{});
+    }
+    
+    public final void connect(String ipAddr) throws IOException{
+        System.out.printf("Connecting to %s...\n", ipAddr);
+        connect(new Socket(ipAddr, PORT));
+    }
+    
+    public final void connect(Socket sock) throws IOException{
+        if(ipAddrToConn.containsKey(sock.getInetAddress())){
+            System.out.printf("Already connected to %s\n", sock.getInetAddress().getHostAddress());
+        } else {
+            // new connection
+            ipAddrToConn.put(sock.getInetAddress(), new Connection(sock));
+        }
+    }
+    
+    public final void shutDown() throws IOException{
+        ipAddrToConn.values().forEach((c)->c.close());
         // Javadoc: "Any thread currently blocked in ServerSocket.accept() will throw a SocketException."
         server.close();
     }
@@ -108,14 +134,21 @@ public class ChatServer {
         
         ChatServer serv = ChatServer.getInstance();
         try {
-            new Socket("0.0.0.0", PORT);
+            new Connection(new Socket("0.0.0.0", PORT));
         } catch (IOException ex) {
             ex.printStackTrace();
         }
-        try {
-            serv.shutDown();
-        } catch (IOException ex) {
-            ex.printStackTrace();
-        }
+        
+        new Thread(){
+            @Override
+            public void run(){
+                JOptionPane.showConfirmDialog(null, "Click OK to shut down server");
+                try {
+                    serv.shutDown();
+                } catch (IOException ex) {
+                    ex.printStackTrace();
+                }
+            }
+        }.start();
     }
 }
