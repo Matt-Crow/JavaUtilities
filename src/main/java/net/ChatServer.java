@@ -21,6 +21,7 @@ public class ChatServer {
     private final HashSet<InetAddress> validIpAddrs;
     private final HashMap<InetAddress, Connection> ipAddrToConn;
     private Thread connectionListenerThread;
+    private volatile boolean isListeningForConn;
     
     private static final int PORT = 4999;
     private static ChatServer instance;
@@ -32,6 +33,7 @@ public class ChatServer {
         server = new ServerSocket(PORT);
         validIpAddrs = findValidIps();
         ipAddrToConn = new HashMap<>();
+        isListeningForConn = false;
         startConnectionListenerThread();
     }
     
@@ -82,7 +84,12 @@ public class ChatServer {
                         try {
                             remoteComputer = server.accept();
                             System.out.println("Accept " + remoteComputer.getInetAddress().getHostAddress());
-                            connect(remoteComputer);
+                            if(isListeningForConn){
+                                connect(remoteComputer);
+                            } else {
+                                System.out.println("Not listening for connections, so I will disconnect them");
+                                remoteComputer.close();
+                            }
                         } catch (SocketException ex){
                             System.out.println("Server is closed. Breaking.");
                             break;
@@ -94,7 +101,12 @@ public class ChatServer {
                 }
             };
             connectionListenerThread.start();
+            isListeningForConn = true;
         }
+    }
+    
+    public final void setListeningForConn(boolean shouldListen){
+        isListeningForConn = shouldListen;
     }
     
     public final String[] getIpAddrs(){
@@ -119,6 +131,7 @@ public class ChatServer {
     
     public final void shutDown() throws IOException{
         ipAddrToConn.values().forEach((c)->c.close());
+        isListeningForConn = false;
         // Javadoc: "Any thread currently blocked in ServerSocket.accept() will throw a SocketException."
         server.close();
     }
