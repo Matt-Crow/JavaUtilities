@@ -1,4 +1,4 @@
-package main;
+package polarGraph;
 
 public class Main {
 

@@ -1,8 +1,7 @@
-package main;
+package polarGraph;
 import javax.swing.JPanel;
 import java.awt.Graphics;
 import java.awt.Color;
-import java.lang.Math;
 import javax.swing.Timer;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;

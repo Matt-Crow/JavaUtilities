@@ -1,4 +1,3 @@
 *.class
 .gradle
 **/.nb-gradle/
-/GameOfLife/build/

@@ -1,4 +1,4 @@
-package main;
+package polarGraph;
 
 import javax.swing.JFrame;
 
