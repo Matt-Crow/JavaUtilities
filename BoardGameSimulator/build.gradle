@@ -13,6 +13,14 @@ if (!hasProperty('mainClass')) {
     ext.mainClass = 'boardgameSimulator.start.Main'
 }
 
+jar {
+    manifest {
+        attributes(
+            'Main-Class': 'boardgameSimulator.start.Main'
+        )
+    }
+}
+
 dependencies {
     // TODO: Add dependencies here
     //   but note that JUnit should have already been added in parent.gradle.
