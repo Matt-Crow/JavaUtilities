@@ -1,5 +1,6 @@
 package imageViewer.start;
 
+import java.awt.Graphics;
 import java.awt.GridLayout;
 import java.awt.image.BufferedImage;
 import java.io.FileInputStream;
@@ -22,10 +23,19 @@ public class ImagePane extends JPanel {
     public final void setImage(String path){
         try {
             img = ImageIO.read(new FileInputStream(path));
+            repaint();
         } catch (FileNotFoundException ex) {
             ex.printStackTrace();
         } catch (IOException ex) {
             ex.printStackTrace();
+        }
+    }
+    
+    @Override
+    public void paintComponent(Graphics g){
+        super.paintComponent(g);
+        if(img != null){
+            g.drawImage(img, 0, 0, this);
         }
     }
 }
