@@ -25,10 +25,15 @@ public class ImageFrame extends JFrame implements DropTargetListener {
     public ImageFrame(){
         super();
         setTitle("Drag and drop images in here to view them");
+        
         pane = new ImagePane();
         JScrollPane scroll = new JScrollPane(pane);
         scroll.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_AS_NEEDED);
         scroll.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED);
+        
+        ToolBar tb = new ToolBar();
+        tb.addFileSelectionListener((f)->pane.setImage(f.getAbsolutePath()));
+        setJMenuBar(tb);
         
         new DropTarget(this, this);
         
