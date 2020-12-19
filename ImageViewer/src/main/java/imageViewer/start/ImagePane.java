@@ -30,6 +30,7 @@ public class ImagePane extends JPanel {
             panY += dy;
             repaint();
         });
+        addMouseListener(panner);
         addMouseMotionListener(panner);
     }
     

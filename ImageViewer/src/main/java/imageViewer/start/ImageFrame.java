@@ -69,10 +69,13 @@ public class ImageFrame extends JFrame implements DropTargetListener {
             System.out.println(flavor.toString());
             if(flavor.isFlavorJavaFileListType()){
                 try {
-                    List<File> files = (List<File>) tf.getTransferData(flavor);
+                    // to satisfy unchecked cast warning
+                    List<Object> files = (List<Object>) tf.getTransferData(flavor);
                     if(files.size() >= 1){
-                        System.out.println(files.get(0));
-                        pane.setImage(files.get(0).getAbsolutePath());
+                        //System.out.println(files.get(0));
+                        if(files.get(0) instanceof File){
+                            pane.setImage(((File)files.get(0)).getAbsolutePath());
+                        }
                     }
                 } catch (IOException ex) {
                     ex.printStackTrace();
