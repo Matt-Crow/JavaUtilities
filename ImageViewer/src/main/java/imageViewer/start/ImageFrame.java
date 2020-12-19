@@ -70,12 +70,10 @@ public class ImageFrame extends JFrame implements DropTargetListener {
             if(flavor.isFlavorJavaFileListType()){
                 try {
                     // to satisfy unchecked cast warning
-                    List<Object> files = (List<Object>) tf.getTransferData(flavor);
-                    if(files.size() >= 1){
-                        //System.out.println(files.get(0));
-                        if(files.get(0) instanceof File){
-                            pane.setImage(((File)files.get(0)).getAbsolutePath());
-                        }
+                    // ugly, but it works
+                    Object data = tf.getTransferData(flavor);
+                    if(data instanceof List && ((List)data).size() >= 1 && ((List)data).get(0) instanceof File){
+                        pane.setImage(((File)((List)data).get(0)).getAbsolutePath());
                     }
                 } catch (IOException ex) {
                     ex.printStackTrace();
