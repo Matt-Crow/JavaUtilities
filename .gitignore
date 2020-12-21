@@ -1,4 +1,6 @@
 *.class
 .gradle
 **/.nb-gradle/
-/ImageViewer/build/
+**/build/*
+!**/build/docs
+!**/build/libs
