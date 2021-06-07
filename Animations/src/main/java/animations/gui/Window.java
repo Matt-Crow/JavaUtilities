@@ -26,4 +26,8 @@ public class Window extends JFrame {
         revalidate();
         repaint();
     }
+    
+    public final Content getContent(){
+        return content;
+    }
 }

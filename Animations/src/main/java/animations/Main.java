@@ -1,6 +1,8 @@
 package animations;
 
+import animations.animation.implementations.PolarGraphAnimation;
 import animations.gui.GuiService;
+import animations.gui.Window;
 import java.util.Arrays;
 import javax.swing.UIManager;
 
@@ -16,6 +18,9 @@ public class Main {
             ex.printStackTrace();
         }
         System.err.printf("Args are %s\n", Arrays.toString(args));
-        new GuiService().createWindow();
+        Window window = new GuiService().createWindow();
+        
+        // Testing stuff
+        window.getContent().setAnimation(new PolarGraphAnimation());
     }
 }
