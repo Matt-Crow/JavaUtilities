@@ -14,11 +14,13 @@ public class AnimationTimer implements ActionListener {
     public static final int FRAMES_PER_SECOND = 20;
     
     private int frame;
+    private int frameRate;
     private final Timer timer;    
     private final LinkedList<Consumer<Integer>> timerListeners;
     
     public AnimationTimer() {
         frame = 0;
+        frameRate = 1;
         timer = new Timer(msPerFrame(), this);
         timer.setRepeats(true);
         timerListeners = new LinkedList<>();
@@ -54,9 +56,13 @@ public class AnimationTimer implements ActionListener {
         timer.stop();
     }
     
+    public final void setFrameRate(int rate){
+        frameRate = rate;
+    }
+    
     public final void update(){
         timerListeners.forEach((listener)->listener.accept(frame));
-        ++frame;
+        frame += frameRate;
     }
     
     public final int getFrame(){

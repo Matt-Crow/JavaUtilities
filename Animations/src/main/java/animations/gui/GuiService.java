@@ -1,15 +1,21 @@
 package animations.gui;
 
 /**
- *
- * @author Matt
+ * Dependency Injector
+ * 
+ * @author Matt Crow
  */
 public class GuiService {
     public Window createWindow(){
         AnimationTimer timer = new AnimationTimer();
         Canvas canvas = new Canvas(timer);
-        timer.addTimerListener(canvas::update);
         Content c = new Content(canvas, timer);
+        AnimationSpeedChooser speedChooser = new AnimationSpeedChooser();
+        
+        speedChooser.addSpeedChangedListener(timer::setFrameRate);
+        timer.addTimerListener(canvas::update);
+        c.addTool(speedChooser);
+        
         return new Window(c);
     }
 }
