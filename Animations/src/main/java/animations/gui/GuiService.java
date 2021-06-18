@@ -6,6 +6,10 @@ package animations.gui;
  */
 public class GuiService {
     public Window createWindow(){
-        return new Window(new Content());
+        AnimationTimer timer = new AnimationTimer();
+        Canvas canvas = new Canvas(timer);
+        timer.addTimerListener(canvas::update);
+        Content c = new Content(canvas, timer);
+        return new Window(c);
     }
 }

@@ -2,6 +2,7 @@ package animations.gui;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.LinkedList;
 import java.util.function.Consumer;
 import javax.swing.Timer;
 
@@ -13,18 +14,27 @@ public class AnimationTimer implements ActionListener {
     public static final int FRAMES_PER_SECOND = 20;
     
     private int frame;
-    private final Consumer<Integer> runEachFrame;
-    private final Timer timer;
+    private final Timer timer;    
+    private final LinkedList<Consumer<Integer>> timerListeners;
     
-    public AnimationTimer(Consumer<Integer> runEachFrame){
-        this.runEachFrame = runEachFrame;
+    public AnimationTimer() {
         frame = 0;
         timer = new Timer(msPerFrame(), this);
         timer.setRepeats(true);
+        timerListeners = new LinkedList<>();
+    }
+    
+    public AnimationTimer(Consumer<Integer> runEachFrame){
+        this();
+        addTimerListener(runEachFrame);
     }
     
     private int msPerFrame(){
         return 1000 / FRAMES_PER_SECOND;
+    }
+    
+    public final void addTimerListener(Consumer<Integer> listener){
+        timerListeners.add(listener);
     }
 
     @Override
@@ -45,7 +55,7 @@ public class AnimationTimer implements ActionListener {
     }
     
     public final void update(){
-        runEachFrame.accept(frame);
+        timerListeners.forEach((listener)->listener.accept(frame));
         ++frame;
     }
     
