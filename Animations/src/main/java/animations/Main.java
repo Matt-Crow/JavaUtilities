@@ -1,6 +1,7 @@
 package animations;
 
 import animations.animation.implementations.PolarGraphAnimation;
+import animations.animation.implementations.SinusoidalGraphAnimation;
 import animations.gui.GuiService;
 import animations.gui.Window;
 import java.util.Arrays;
@@ -21,6 +22,7 @@ public class Main {
         Window window = new GuiService().createWindow();
         
         // Testing stuff
-        window.getContent().setAnimation(new PolarGraphAnimation());
+        //window.getContent().setAnimation(new PolarGraphAnimation());
+        window.getContent().setAnimation(new SinusoidalGraphAnimation());
     }
 }
