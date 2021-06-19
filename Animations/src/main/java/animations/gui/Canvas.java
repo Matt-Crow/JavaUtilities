@@ -23,7 +23,7 @@ public class Canvas extends JPanel {
         this.currentAnimation = newAnimation;
     }
     
-    protected final void update(int frame){
+    protected final void update(double secondsElapsed){
         repaint();
     }
     
@@ -31,7 +31,7 @@ public class Canvas extends JPanel {
     public void paintComponent(Graphics g){
         super.paintComponent(g);
         if(currentAnimation != null){
-            currentAnimation.paint(this, g, timer.getFrame());
+            currentAnimation.paint(this, g, timer.getSecondsElapsed());
         }
     }
 }

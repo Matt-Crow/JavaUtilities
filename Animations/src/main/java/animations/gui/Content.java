@@ -3,7 +3,6 @@ package animations.gui;
 import animations.animation.AbstractAnimation;
 import java.awt.BorderLayout;
 import java.awt.FlowLayout;
-import java.awt.Graphics;
 import javax.swing.JComponent;
 import javax.swing.JPanel;
 

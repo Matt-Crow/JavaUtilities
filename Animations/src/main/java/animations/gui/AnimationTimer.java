@@ -11,22 +11,22 @@ import javax.swing.Timer;
  * @author Matt
  */
 public class AnimationTimer implements ActionListener {
-    public static final int FRAMES_PER_SECOND = 20;
+    public static final int FRAMES_PER_SECOND = 60;
     
-    private int frame;
+    private double secondsElapsed;
     private int frameRate;
     private final Timer timer;    
-    private final LinkedList<Consumer<Integer>> timerListeners;
+    private final LinkedList<Consumer<Double>> timerListeners;
     
     public AnimationTimer() {
-        frame = 0;
+        secondsElapsed = 0;
         frameRate = 1;
         timer = new Timer(msPerFrame(), this);
         timer.setRepeats(true);
         timerListeners = new LinkedList<>();
     }
     
-    public AnimationTimer(Consumer<Integer> runEachFrame){
+    public AnimationTimer(Consumer<Double> runEachFrame){
         this();
         addTimerListener(runEachFrame);
     }
@@ -35,7 +35,7 @@ public class AnimationTimer implements ActionListener {
         return 1000 / FRAMES_PER_SECOND;
     }
     
-    public final void addTimerListener(Consumer<Integer> listener){
+    public final void addTimerListener(Consumer<Double> listener){
         timerListeners.add(listener);
     }
 
@@ -45,7 +45,7 @@ public class AnimationTimer implements ActionListener {
     }
     
     public final void reset(){
-        frame = 0;
+        secondsElapsed = 0;
     }
     
     public final void start(){
@@ -61,11 +61,11 @@ public class AnimationTimer implements ActionListener {
     }
     
     public final void update(){
-        timerListeners.forEach((listener)->listener.accept(frame));
-        frame += frameRate;
+        timerListeners.forEach((listener)->listener.accept(secondsElapsed));
+        secondsElapsed += (double)frameRate / FRAMES_PER_SECOND;
     }
     
-    public final int getFrame(){
-        return frame;
+    public final double getSecondsElapsed(){
+        return secondsElapsed;
     }
 }

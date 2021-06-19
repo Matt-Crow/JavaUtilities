@@ -10,16 +10,16 @@ import javax.swing.JComponent;
  * @author Matt
  */
 public class PolarGraphAnimation extends AbstractAnimation {
-    private static final double STEP = 0.005;
+    private static final double PERIOD = 3.0;
     
     @Override
-    public void paint(JComponent component, Graphics g, int t) {
+    public void paint(JComponent component, Graphics g, double t) {
         int size = (component.getWidth() + component.getHeight()) / 5;
         g.setColor(Color.PINK);
         double theta = theta(t);
         int petals = petalCount(t);
         double r;
-        for(double i = 0; i < theta; i += 0.001){
+        for(double i = 0; i < theta; i += 0.0001){
             r = size * Math.sin(petals * i);
             g.fillRect(
                 (int) (component.getWidth() / 2 + r * Math.cos(i)), 
@@ -30,7 +30,7 @@ public class PolarGraphAnimation extends AbstractAnimation {
         }
     }
     
-    private double theta(int t){
+    private double theta(double t){
         double theta = rawTheta(t);
         while(theta >= 2 * Math.PI){
             theta -= 2 * Math.PI;
@@ -38,11 +38,11 @@ public class PolarGraphAnimation extends AbstractAnimation {
         return theta;
     }
     
-    private double rawTheta(int t){
-        return t * STEP;
+    private double rawTheta(double t){
+        return t * 2 * Math.PI / PERIOD;
     }
     
-    private int petalCount(int t){
-        return 2 + (int)Math.floor(rawTheta(t) / (2 * Math.PI));
+    private int petalCount(double t){
+        return 2 + (int)Math.floor(t / PERIOD);
     }
 }
