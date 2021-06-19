@@ -15,9 +15,15 @@ import javax.swing.event.ChangeListener;
  * @author Matt
  */
 public class AnimationSpeedChooser extends JComponent implements ChangeListener {
-    private final LinkedList<Consumer<Integer>> speedChangedListeners;
+    private final LinkedList<Consumer<Double>> speedChangedListeners;
     private final JSlider hamburger;
-    private final int MAX_SPEED = 100;
+    private final int MIN_SPEED = 0;
+    private final int MAX_SPEED = 10;
+    private final double SLIDER_MULT = 0.25;
+    /*
+    The range of choices users have for speeds ranges from
+    [ MIN_SPEED * SLIDER_MULT, MAX_SPEED * SLIDER_MULT ]
+    */
     
     public AnimationSpeedChooser(){
         super();
@@ -28,15 +34,28 @@ public class AnimationSpeedChooser extends JComponent implements ChangeListener 
         JPanel mid = new JPanel();
         add(mid, BorderLayout.CENTER);
         
-        hamburger = new JSlider(JSlider.HORIZONTAL, 1, MAX_SPEED, 1);
+        hamburger = new JSlider(JSlider.HORIZONTAL, MIN_SPEED, MAX_SPEED, 1);
         hamburger.addChangeListener(this);
         mid.add(hamburger);
+        
+        JLabel minLabel = new JLabel(String.format("%.1fX", MIN_SPEED * SLIDER_MULT));
+        add(minLabel, BorderLayout.LINE_START);
+        
+        JLabel maxLabel = new JLabel(String.format("%.1fX", MAX_SPEED * SLIDER_MULT));
+        add(maxLabel, BorderLayout.LINE_END);
         
         speedChangedListeners = new LinkedList<>();
     }
     
-    protected final void addSpeedChangedListener(Consumer<Integer> listener){
+    protected final void addSpeedChangedListener(Consumer<Double> listener){
         speedChangedListeners.add(listener);
+    }
+    
+    @Override
+    public void stateChanged(ChangeEvent e) {
+        if(hamburger.equals(e.getSource())){
+            setSpeed(hamburger.getValue());
+        }
     }
     
     public final void setSpeed(int speed){
@@ -44,14 +63,7 @@ public class AnimationSpeedChooser extends JComponent implements ChangeListener 
             throw new IllegalArgumentException(String.format("Speed cannot exceed %d, so setSpeed(%d) is not allowed", MAX_SPEED, speed));
         }
         speedChangedListeners.forEach((listener)->{
-            listener.accept(speed);
+            listener.accept(speed * SLIDER_MULT);
         });
-    }
-
-    @Override
-    public void stateChanged(ChangeEvent e) {
-        if(hamburger.equals(e.getSource())){
-            setSpeed(hamburger.getValue());
-        }
     }
 }

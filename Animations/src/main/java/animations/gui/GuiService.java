@@ -12,7 +12,7 @@ public class GuiService {
         Content c = new Content(canvas, timer);
         AnimationSpeedChooser speedChooser = new AnimationSpeedChooser();
         
-        speedChooser.addSpeedChangedListener(timer::setFrameRate);
+        speedChooser.addSpeedChangedListener(timer::setSpeedMultiplier);
         timer.addTimerListener(canvas::update);
         c.addTool(speedChooser);
         

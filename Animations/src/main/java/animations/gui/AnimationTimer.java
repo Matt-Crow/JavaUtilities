@@ -14,13 +14,13 @@ public class AnimationTimer implements ActionListener {
     public static final int FRAMES_PER_SECOND = 60;
     
     private double secondsElapsed;
-    private int frameRate;
+    private double speedMultiplier;
     private final Timer timer;    
     private final LinkedList<Consumer<Double>> timerListeners;
     
     public AnimationTimer() {
         secondsElapsed = 0;
-        frameRate = 1;
+        speedMultiplier = 1.0;
         timer = new Timer(msPerFrame(), this);
         timer.setRepeats(true);
         timerListeners = new LinkedList<>();
@@ -56,13 +56,13 @@ public class AnimationTimer implements ActionListener {
         timer.stop();
     }
     
-    public final void setFrameRate(int rate){
-        frameRate = rate;
+    public final void setSpeedMultiplier(double rate){
+        speedMultiplier = rate;
     }
     
     public final void update(){
         timerListeners.forEach((listener)->listener.accept(secondsElapsed));
-        secondsElapsed += (double)frameRate / FRAMES_PER_SECOND;
+        secondsElapsed += speedMultiplier / FRAMES_PER_SECOND;
     }
     
     public final double getSecondsElapsed(){
