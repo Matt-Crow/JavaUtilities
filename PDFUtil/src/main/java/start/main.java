@@ -1,8 +1,9 @@
 package start;
 
 import java.io.File;
-import java.io.IOException;
 import org.apache.pdfbox.pdmodel.PDDocument;
+import pdf.PDFReader;
+import pdf.PDFWriter;
 /**
  *
  * @author Matt Crow
@@ -11,11 +12,10 @@ public class main {
     public static void main(String... args){
         System.out.println("Works!");
         if(args.length >= 1){
-            try (PDDocument doc = PDDocument.load(new File(args[0]))){
-                System.out.println(doc);
-            } catch(IOException ex){
-                ex.printStackTrace();
-            }
+            PDFReader reader = new PDFReader(new File(args[0]));
+            PDDocument doc = reader.read();
+            PDFWriter writer = new PDFWriter(doc);
+            writer.save(new File(args[0].replace(".pdf", "-copy.pdf")));
         }
     }
 }
