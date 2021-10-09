@@ -4,6 +4,7 @@ import java.io.File;
 import org.apache.pdfbox.pdmodel.PDDocument;
 import pdf.PDFReader;
 import pdf.PDFWriter;
+import pdf.PageRotator;
 /**
  *
  * @author Matt Crow
@@ -14,8 +15,9 @@ public class main {
         if(args.length >= 1){
             PDFReader reader = new PDFReader(new File(args[0]));
             PDDocument doc = reader.read();
-            PDFWriter writer = new PDFWriter(doc);
-            writer.save(new File(args[0].replace(".pdf", "-copy.pdf")));
+            PDDocument rotated = new PageRotator().rotateBy(doc, 90);
+            PDFWriter writer = new PDFWriter(rotated);
+            writer.save(new File(args[0].replace(".pdf", "-rotated.pdf")));
         }
     }
 }
