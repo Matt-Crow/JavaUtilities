@@ -13,30 +13,21 @@ import pdf.PageRotator;
  *
  * @author Matt Crow
  */
-public class Page extends JPanel {
-    private final JTextArea output;
+public class Page extends JPanel {    
+    private final PDFOption rotateOption;
+    private final PDFOption splitOption;
     
-    private final PDFChooser rotateOption;
-    private final JButton rotateButton;
-    
-    private final PDFChooser splitOption;
-    private final JButton splitButton;
-    
-    public Page(){        
-        output = new JTextArea("TOTO Drag and drop PDF for each option");
-        
+    public Page(){
         JPanel options = new JPanel();
         
-        rotateOption = new PDFChooser((file)->{
+        rotateOption = new PDFOption("Rotate", "Choose file to rotate", (file)->{
             PDDocument input = new PDFReader(file).read();
             PDDocument output = new PageRotator().rotateBy(input, 90);
             new PDFWriter(output).save(new File(file.getAbsolutePath().replace(".pdf", "-rotated.pdf")));
-        }, this);
-        rotateButton = new JButton("Rotate a PDF");
-        rotateButton.addActionListener((e)->rotateOption.choose());
-        options.add(rotateButton);
+        });
+        options.add(rotateOption);
         
-        splitOption = new PDFChooser((file)->{
+        splitOption = new PDFOption("Split", "Choose file to split", (file)->{
             PDDocument input = new PDFReader(file).read();
             List<PDDocument> output = new PDFSplitter(input).split();
             int i = 1;
@@ -44,14 +35,11 @@ public class Page extends JPanel {
                 new PDFWriter(doc).save(new File(file.getAbsolutePath().replace(".pdf", String.format("-page-%d.pdf", i))));
                 ++i;
             }
-        }, this);
-        splitButton = new JButton("Split a PDF");
-        splitButton.addActionListener((e)->splitOption.choose());
-        options.add(splitButton);
+        });
+        options.add(splitOption);
         
         setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
         add(new JLabel("PDF Rotator"));
-        add(output);
         add(options);
     }
 }
