@@ -1,6 +1,7 @@
 plugins {
     id 'application'
 }
+
 // Note: "common.gradle" in the root project contains additional initialization
 //   for this project. This initialization is applied in the "build.gradle"
 //   of the root project.
@@ -12,8 +13,11 @@ plugins {
 // Note however, that you may define your own "run" and "debug" task if you
 // prefer. In this case NetBeans will not add these tasks but you may rely on
 // your own implementation.
+
+project.mainClassName = 'imageViewer.start.Main'
+
 if (!hasProperty('mainClass')) {
-    ext.mainClass = 'imageViewer.start.Main'
+    ext.mainClass = project.mainClassName
 }
 
 jar {
