@@ -1,6 +1,8 @@
 import org.gradle.api.artifacts.*
 
-apply plugin: 'base' // To add "clean" task to the root project.
+plugins {
+    id 'base'
+}
 
 subprojects {
     apply from: rootProject.file('common.gradle')
