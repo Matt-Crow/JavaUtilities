@@ -2,28 +2,10 @@ plugins {
     id 'application'
 }
 
-def main = 'start/main'
-
 application {
-    mainClassName main
-}
-
-if (!hasProperty('mainClass')) {
-    ext.mainClass = main
+    mainClass = 'start.main'
 }
 
 dependencies {
-    compile 'org.apache.pdfbox:pdfbox:2.0.22'
-}
-
-jar {
-    manifest {
-        attributes(
-            'Main-Class': main
-        )
-    }
-    
-    from {
-        configurations.compile.collect { it.isDirectory() ? it : zipTree(it) }
-    }
+    implementation 'org.apache.pdfbox:pdfbox:2.0.22'
 }

@@ -3,19 +3,5 @@ plugins {
 }
 
 application {
-    mainClassName 'matrix.Main'
-}
-
-if (!hasProperty('mainClass')) {
-    ext.mainClass = 'matrix.Main'
-}
-
-jar {
-    manifest{
-        attributes "Main-Class": "matrix.Main"
-    }
-}
-
-dependencies {
-
+    mainClass = 'matrix.Main'
 }

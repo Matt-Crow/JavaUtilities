@@ -3,19 +3,11 @@ plugins {
 }
 
 application {
-    mainClassName 'calculator.Calculator'
-}
-
-if (!hasProperty('mainClass')) {
-    ext.mainClass = 'calculator.Calculator'
+    mainClass = 'calculator.Calculator'
 }
 
 jar {
     manifest{
         attributes "Main-Class": "calculator.Calculator"
     }
-}
-
-dependencies {
-
 }

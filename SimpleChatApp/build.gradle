@@ -3,19 +3,5 @@ plugins {
 }
 
 application {
-    mainClassName = 'start.Main'
-}
-
-if (!hasProperty('mainClass')) {
-    ext.mainClass = 'start.Main'
-}
-
-jar {
-    manifest{
-        attributes "Main-Class": "start.Main"
-    }
-}
-
-dependencies {
-    
+    mainClass = 'start.Main'
 }

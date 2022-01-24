@@ -3,21 +3,5 @@ plugins {
 }
 
 application {
-    mainClassName = 'boardgameSimulator.start.Main'
-}
-
-if (!hasProperty('mainClass')) {
-    ext.mainClass = 'boardgameSimulator.start.Main'
-}
-
-jar {
-    manifest {
-        attributes(
-            'Main-Class': 'boardgameSimulator.start.Main'
-        )
-    }
-}
-
-dependencies {
-    
+    mainClass = 'boardgameSimulator.start.Main'
 }

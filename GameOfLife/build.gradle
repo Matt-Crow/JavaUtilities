@@ -3,19 +3,5 @@ plugins {
 }
 
 application {
-    mainClassName 'gameoflife.GameOfLife'
-}
-
-if (!hasProperty('mainClass')) {
-    ext.mainClass = 'gameoflife.GameOfLife'
-}
-
-jar {
-    manifest{
-        attributes "Main-Class": "gameoflife.GameOfLife"
-    }
-}
-
-dependencies {
-
+    mainClass = 'gameoflife.GameOfLife'
 }
