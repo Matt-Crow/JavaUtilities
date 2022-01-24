@@ -12,7 +12,7 @@ dependencies {
 }
 
 application {
-    mainClass = 'toDoList.App'
+    mainClassName = 'toDoList.App'
 }
 
 tasks.named('test') {

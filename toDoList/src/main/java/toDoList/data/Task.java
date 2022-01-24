@@ -7,7 +7,7 @@ package toDoList.data;
 import java.util.Date;
 
 /**
- * @author Matt
+ * @author Matt Crow
  */
 public class Task {
     

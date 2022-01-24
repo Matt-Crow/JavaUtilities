@@ -3,12 +3,11 @@
  */
 package toDoList;
 
-public class App {
-    public String getGreeting() {
-        return "Hello World!";
-    }
+import toDoList.gui.GuiLauncher;
 
+public class App {
     public static void main(String[] args) {
-        System.out.println(new App().getGreeting());
+        GuiLauncher.launch();
+        System.out.println("launching To Do List...");
     }
 }
