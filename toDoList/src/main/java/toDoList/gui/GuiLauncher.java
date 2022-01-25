@@ -7,7 +7,8 @@ package toDoList.gui;
 public class GuiLauncher {
     public static void launch(){
         TaskCreator taskCreator = new TaskCreator();
-        Panel panel = new Panel(taskCreator);
+        TaskTableModel model = new TaskTableModel();
+        Panel panel = new Panel(taskCreator, model);
         Window window = new Window(panel);
     }
 }

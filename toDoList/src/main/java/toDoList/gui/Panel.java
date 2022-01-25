@@ -1,9 +1,10 @@
 package toDoList.gui;
 
 import java.awt.BorderLayout;
+import java.util.Date;
 import javax.swing.JPanel;
 import javax.swing.JLabel;
-import javax.swing.JTable;
+import javax.swing.JScrollPane;
 
 /**
  *
@@ -11,23 +12,25 @@ import javax.swing.JTable;
  */
 public class Panel extends JPanel {
     
-    private final JTable taskList;
+    private final TaskTable taskList;
     private final TaskCreator taskCreator;
     
-    public Panel(TaskCreator taskCreator){
+    public Panel(TaskCreator taskCreator, TaskTableModel model){
         super();
         setLayout(new BorderLayout());
         
         add(new JLabel("Tasks"), BorderLayout.PAGE_START);
         
-        taskList = new JTable(new Object[][]{}, new Object[]{
-            "subject", "description", "due date"
-        });
+        taskList = new TaskTable(model);
         taskCreator.addTaskCreatedListener((task)->{
-            // how to add row to JTabel?
+            taskList.addTask(task);
+            repaint();
         });
         
-        add(taskList, BorderLayout.CENTER);
+        JScrollPane scroll = new JScrollPane(taskList);
+        taskList.setFillsViewportHeight(true);
+        
+        add(scroll, BorderLayout.CENTER);
         
         add(taskCreator, BorderLayout.PAGE_END);
         
