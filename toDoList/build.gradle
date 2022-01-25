@@ -6,3 +6,5 @@ application {
     mainClass = 'toDoList.App'
 }
 
+// for some reason, mainClass is not set by Netbeans' "Debug Project"
+// so need to right click, debug file
