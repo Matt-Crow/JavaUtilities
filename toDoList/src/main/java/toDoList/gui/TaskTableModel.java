@@ -10,6 +10,11 @@ import toDoList.data.Task;
  * @author Matt Crow
  */
 public class TaskTableModel extends AbstractTableModel {
+    private static final String[] COLUMNS = new String[]{
+        "due date", "subject", "description", "delete?"
+    };
+    
+    
     private final List<Task> tasks;
     
     protected TaskTableModel(){
@@ -19,14 +24,12 @@ public class TaskTableModel extends AbstractTableModel {
     
     public final void addTask(Task t){
         tasks.add(t);
+        System.out.println();
     }
     
     @Override
     public String getColumnName(int column){
-        String[] names = new String[]{
-            "due date", "subject", "description"
-        };
-        return names[column];
+        return COLUMNS[column];
     }
     
     @Override
@@ -41,7 +44,7 @@ public class TaskTableModel extends AbstractTableModel {
 
     @Override
     public int getColumnCount() {
-        return 3;
+        return COLUMNS.length;
     }
 
     @Override
@@ -54,6 +57,8 @@ public class TaskTableModel extends AbstractTableModel {
                 return tasks.get(rowIndex).getSubject();
             case 2:
                 return tasks.get(rowIndex).getDescription();
+            case 3:
+                return new Boolean(false);
             default:
                 throw new IndexOutOfBoundsException(String.format("invalid column: %d", columnIndex));
         }
