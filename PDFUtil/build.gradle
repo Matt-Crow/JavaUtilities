@@ -6,6 +6,23 @@ application {
     mainClass = 'start.main'
 }
 
+jar {
+    duplicatesStrategy = 'include'
+
+    //include dependencies in JAR file
+    from sourceSets.main.output
+    
+    dependsOn configurations.runtimeClasspath
+    from {
+        configurations.runtimeClasspath.findAll { it.name.endsWith('jar') }.collect { zipTree(it) }
+    }
+    manifest {
+        attributes(
+            'Main-Class': 'start.main'
+        )
+    }
+}
+
 dependencies {
     implementation 'org.apache.pdfbox:pdfbox:2.0.22'
 }
