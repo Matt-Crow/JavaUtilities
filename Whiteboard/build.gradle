@@ -2,8 +2,6 @@ plugins {
     id 'application'
 }
 
-sourceCompatibility = '1.21'
-
 application {
     mainClass = 'mattcrow.whiteboard.Main'
 }

@@ -2,13 +2,6 @@ plugins {
     id 'application'
 }
 
-project.mainClassName = 'animations.Main'
-project.version = 0.1
-
-if (!hasProperty('mainClass')) {
-    ext.mainClass = project.mainClassName
-}
-
 application {
     mainClass = 'animations.Main'
 }

@@ -2,17 +2,14 @@ plugins {
     id 'application'
 }
 
-sourceCompatibility = '1.8'
 [compileJava, compileTestJava]*.options*.encoding = 'UTF-8'
-
-project.mainClassName = 'start.Main'
-
-if (!hasProperty('mainClass')) {
-    ext.mainClass = project.mainClassName
-}
 
 repositories {
     mavenCentral()
+}
+
+application {
+    mainClass = 'start.Main'
 }
 
 jar {

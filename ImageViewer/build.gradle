@@ -2,10 +2,8 @@ plugins {
     id 'application'
 }
 
-project.mainClassName = 'imageViewer.start.Main'
-
-if (!hasProperty('mainClass')) {
-    ext.mainClass = project.mainClassName
+application {
+    mainClass = 'imageViewer.start.Main'
 }
 
 jar {
