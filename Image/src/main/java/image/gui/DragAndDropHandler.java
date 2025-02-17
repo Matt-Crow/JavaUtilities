@@ -12,16 +12,17 @@ import java.io.File;
 import java.io.IOException;
 import java.util.List;
 
-import imageViewer.start.ImagePane;
+import image.ApplicationState;
+import image.io.ImageLoader;
 
 /**
  * Handles the drag-and-drop event
  */
 public class DragAndDropHandler {
-    private final ImagePane pane;
+    private final ApplicationState applicationState;
 
-    public DragAndDropHandler(ImagePane pane) {
-        this.pane = pane;
+    public DragAndDropHandler(ApplicationState applicationState) {
+        this.applicationState = applicationState;
     }
 
     /**
@@ -39,7 +40,8 @@ public class DragAndDropHandler {
                     var files = (List<File>) tf.getTransferData(DataFlavor.javaFileListFlavor);
 
                     if (files.size() >= 1) {
-                        pane.setImage(files.get(0).getAbsolutePath());
+                        var image = new ImageLoader().loadImage(files.get(0).getAbsolutePath());
+                        applicationState.setImage(image);
                     }
                 } catch (IOException ex) {
                     ex.printStackTrace();

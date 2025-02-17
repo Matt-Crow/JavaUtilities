@@ -2,8 +2,9 @@ package image.gui;
 
 import javax.swing.JPanel;
 
+import image.ApplicationState;
+
 import java.awt.BorderLayout;
-import java.awt.image.BufferedImage;
 
 // TODO need to combine some of this with ImagePane - split it up into components, then combine?
 
@@ -12,16 +13,16 @@ import java.awt.image.BufferedImage;
  * @author Matt
  */
 public class Whiteboard extends JPanel {
-    public Whiteboard(BufferedImage buffer) {
+    public Whiteboard(ApplicationState applicationState) {
         super();
         setLayout(new BorderLayout());
 
-        add(new ImagePainter(buffer), BorderLayout.CENTER);
+        add(new ImagePainter(applicationState), BorderLayout.CENTER);
 
         var toolsSection = new JPanel();
         add(toolsSection, BorderLayout.PAGE_START);
 
-        toolsSection.add(new SaveButton(buffer));
+        toolsSection.add(new SaveButton(applicationState));
 
         repaint();
     }

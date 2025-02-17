@@ -3,25 +3,22 @@ package imageViewer.start;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import javax.imageio.ImageIO;
 import javax.swing.JPanel;
+
+import image.ApplicationState;
 /**
  *
  * @author Matt
  */
 public class ImagePane extends JPanel {
-    private BufferedImage img;
+    private BufferedImage image;
     private int panX;
     private int panY;
     private double zoomFactor;
     
-    public ImagePane(){
+    public ImagePane(ApplicationState applicationState){
         super();
-        //setLayout(new GridLayout(1, 1));
-        img = null;
+        image = applicationState.getImage();
         panX = 0;
         panY = 0;
         zoomFactor = 1.0;
@@ -42,28 +39,22 @@ public class ImagePane extends JPanel {
             repaint();
         });
         addMouseWheelListener(zoom);
+
+        applicationState.addImageChangeListener(this::handleImageChanged);
     }
     
-    public final void setImage(String path){
-        try {
-            img = ImageIO.read(new FileInputStream(path));
-            this.setSize(img.getWidth(), img.getHeight());
-            repaint();
-        } catch (FileNotFoundException ex) {
-            ex.printStackTrace();
-        } catch (IOException ex) {
-            ex.printStackTrace();
-        }
+    private void handleImageChanged(BufferedImage image) {
+        this.image = image;
+        setSize(image.getWidth(), image.getHeight());
+        repaint();
     }
     
     @Override
     public void paintComponent(Graphics g){
         super.paintComponent(g);
         Graphics2D g2d = (Graphics2D)g;
-        if(img != null){
-            g.translate(panX, panY);
-            g2d.scale(zoomFactor, zoomFactor);
-            g.drawImage(img, 0, 0, this);
-        }
+        g.translate(panX, panY);
+        g2d.scale(zoomFactor, zoomFactor);
+        g.drawImage(image, 0, 0, this);
     }
 }

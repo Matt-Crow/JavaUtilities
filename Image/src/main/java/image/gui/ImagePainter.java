@@ -2,25 +2,25 @@ package image.gui;
 
 import java.awt.Color;
 import java.awt.Graphics;
-import java.awt.image.BufferedImage;
-
 import javax.swing.JPanel;
+
+import image.ApplicationState;
 
 /**
  * JPanel which paints an image
  */
 public class ImagePainter extends JPanel {
-    private final BufferedImage buffer;
+    private final ApplicationState applicationState;
 
-    public ImagePainter(BufferedImage buffer) {
-        this.buffer = buffer;
+    public ImagePainter(ApplicationState applicationState) {
+        this.applicationState = applicationState;
         setBackground(Color.WHITE);
-        addMouseMotionListener(new DrawTool(buffer, () -> repaint()));
+        addMouseMotionListener(new DrawTool(applicationState, () -> repaint()));
     }
 
     @Override
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
-        g.drawImage(buffer, 0, 0, this);
+        g.drawImage(applicationState.getImage(), 0, 0, this);
     }
 }

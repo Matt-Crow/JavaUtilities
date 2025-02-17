@@ -2,7 +2,6 @@ package image.gui;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.image.BufferedImage;
 import java.io.IOException;
 
 import javax.imageio.ImageIO;
@@ -11,16 +10,18 @@ import javax.swing.JFileChooser;
 import java.nio.file.Paths;
 import javax.swing.JOptionPane;
 
+import image.ApplicationState;
+
 /**
  *
  * @author Matt
  */
 public class SaveButton extends JButton implements ActionListener{
-    private final BufferedImage image;
+    private final ApplicationState applicationState;
     
-    public SaveButton(BufferedImage image){
+    public SaveButton(ApplicationState applicationState){
         super("Save");
-        this.image = image;
+        this.applicationState = applicationState;
         addActionListener(this);
     }
     
@@ -36,13 +37,12 @@ public class SaveButton extends JButton implements ActionListener{
     
     private void saveTo(String dir, String name){
         try {
-            var written = ImageIO.write(image, "png", Paths.get(dir, name + ".png").toFile());
+            var written = ImageIO.write(applicationState.getImage(), "png", Paths.get(dir, name + ".png").toFile());
             if (!written) {
                 throw new RuntimeException("Failed to write file for some reason");
             }
         } catch (IOException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
+            throw new RuntimeException(e);
         }
     }
 }

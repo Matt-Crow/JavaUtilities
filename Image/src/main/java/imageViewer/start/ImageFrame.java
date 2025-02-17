@@ -6,7 +6,9 @@ import javax.swing.JFrame;
 import javax.swing.JScrollPane;
 import javax.swing.ScrollPaneConstants;
 
+import image.ApplicationState;
 import image.gui.DragAndDropHandler;
+import image.io.ImageLoader;
 
 /**
  *
@@ -14,21 +16,24 @@ import image.gui.DragAndDropHandler;
  */
 public class ImageFrame extends JFrame {
     private final ImagePane pane;
+    private final ApplicationState applicationState;
 
-    public ImageFrame(Optional<String> filePath) {
+    public ImageFrame(ApplicationState applicationState, Optional<String> filePath) {
         super();
+        this.applicationState = applicationState;
+
         setTitle("Drag and drop images in here to view them");
 
-        pane = new ImagePane();
+        pane = new ImagePane(applicationState);
         JScrollPane scroll = new JScrollPane(pane);
         scroll.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_AS_NEEDED);
         scroll.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED);
 
         ToolBar tb = new ToolBar();
-        tb.addFileSelectionListener((f) -> pane.setImage(f.getAbsolutePath()));
+        tb.addFileSelectionListener((f) -> setImage(f.getAbsolutePath()));
         setJMenuBar(tb);
 
-        new DragAndDropHandler(pane)
+        new DragAndDropHandler(applicationState)
             .handleDragAndDropFor(this);
 
         setContentPane(scroll);
@@ -37,8 +42,12 @@ public class ImageFrame extends JFrame {
         setSize(500, 500);
         revalidate();
 
-        filePath.ifPresent(path -> pane.setImage(path));
+        filePath.ifPresent(path -> setImage(path));
 
         repaint();
+    }
+
+    private void setImage(String path) {
+        applicationState.setImage(new ImageLoader().loadImage(path));
     }
 }
