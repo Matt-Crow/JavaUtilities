@@ -1,0 +1,13 @@
+plugins {
+    id 'application'
+}
+
+application {
+    mainClass = 'image.Main'
+}
+
+jar {
+    manifest {
+        attributes "Main-Class": "image.Main"
+    }
+}
