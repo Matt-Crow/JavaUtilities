@@ -15,5 +15,7 @@ public class Main {
             ? Optional.<String>empty() 
             : Optional.of(args[0]);
         new ImageFrame(filePath);
+
+        mattcrow.whiteboard.Main.main(args);
     }    
 }
