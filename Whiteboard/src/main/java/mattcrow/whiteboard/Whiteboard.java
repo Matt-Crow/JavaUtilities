@@ -1,6 +1,8 @@
 package mattcrow.whiteboard;
 
 import javax.swing.JPanel;
+
+import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.event.*;
@@ -17,13 +19,35 @@ import javax.swing.SwingUtilities;
 public class Whiteboard extends JPanel{
     private final LinkedList<Point> points = new LinkedList<>();
     private final int MARKER_SIZE = 10;
+    private final JPanel body;
     
     public Whiteboard(){
         super();
-        
-        SaveButton s = new SaveButton(new SaveAction(this));
+
+        setLayout(new BorderLayout());
+        body = new JPanel() {
+            @Override
+            public void paintComponent(Graphics g){
+                super.paintComponent(g);
+                g.setColor(Color.BLACK);
+                Iterator<Point> i = points.iterator();
+                Point p;
+                while(i.hasNext()){
+                    p = i.next();
+                    g.fillRect(p.x, p.y, MARKER_SIZE, MARKER_SIZE);
+                }
+            }
+        };
+        add(body, BorderLayout.CENTER);
+        body.setBackground(Color.WHITE);
+        initMouseAdapter();
+
+        var toolsSection = new JPanel();
+        add(toolsSection, BorderLayout.PAGE_START);
+
+        SaveButton s = new SaveButton(new SaveAction(body));
         s.setPointsToSave(points);
-        add(s);
+        toolsSection.add(s);
         
         //temp
         JButton load = new JButton("Load");
@@ -34,10 +58,8 @@ public class Whiteboard extends JPanel{
                 throw new UnsupportedOperationException();
             }
         });
-        add(load);
+        toolsSection.add(load);
         
-        setBackground(Color.WHITE);
-        initMouseAdapter();
         repaint();
     }
     
@@ -58,18 +80,6 @@ public class Whiteboard extends JPanel{
                 repaint();
             }
         };
-        addMouseMotionListener(a);
-    }
-    
-    @Override
-    public void paintComponent(Graphics g){
-        super.paintComponent(g);
-        g.setColor(Color.BLACK);
-        Iterator<Point> i = points.iterator();
-        Point p;
-        while(i.hasNext()){
-            p = i.next();
-            g.fillRect(p.x, p.y, MARKER_SIZE, MARKER_SIZE);
-        }
+        body.addMouseMotionListener(a);
     }
 }
