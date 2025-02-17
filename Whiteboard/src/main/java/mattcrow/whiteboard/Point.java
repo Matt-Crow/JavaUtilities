@@ -1,4 +1,4 @@
-package misc;
+package mattcrow.whiteboard;
 
 /**
  * A Point contains the data associated with 

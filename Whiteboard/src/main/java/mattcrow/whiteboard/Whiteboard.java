@@ -1,7 +1,4 @@
-package mattcrow.whiteboard.gui;
-
-import io.MWBFile;
-import misc.Point;
+package mattcrow.whiteboard;
 
 import javax.swing.JPanel;
 import java.awt.Color;

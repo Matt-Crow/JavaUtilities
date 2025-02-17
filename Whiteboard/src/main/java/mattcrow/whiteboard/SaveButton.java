@@ -1,6 +1,5 @@
-package mattcrow.whiteboard.gui;
+package mattcrow.whiteboard;
 
-import io.MWBFile;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.filechooser.FileFilter;
@@ -10,7 +9,6 @@ import java.util.LinkedList;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import javax.swing.JOptionPane;
-import misc.Point;
 
 /**
  *
