@@ -1,6 +1,5 @@
 package toDoList.gui;
 
-import java.awt.Component;
 import javax.swing.JTable;
 import toDoList.data.Task;
 

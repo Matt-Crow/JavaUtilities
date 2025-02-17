@@ -6,7 +6,6 @@ import javax.swing.JMenuItem;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
-@SuppressWarnings("serial")
 public class AddCard extends JMenuItem{
 	private Card registeredCard;
 	private Deck registeredDeck;

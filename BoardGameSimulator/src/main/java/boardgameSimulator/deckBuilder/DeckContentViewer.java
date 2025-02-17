@@ -4,7 +4,6 @@ import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import boardgameSimulator.cardPlaces.Deck;
 
-@SuppressWarnings("serial")
 public class DeckContentViewer extends JScrollPane{
 	private JTextArea text;
 	private Deck d;

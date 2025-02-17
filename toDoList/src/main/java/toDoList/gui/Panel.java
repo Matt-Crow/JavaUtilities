@@ -1,7 +1,6 @@
 package toDoList.gui;
 
 import java.awt.BorderLayout;
-import java.util.Date;
 import javax.swing.JPanel;
 import javax.swing.JLabel;
 import javax.swing.JScrollPane;
@@ -13,7 +12,6 @@ import javax.swing.JScrollPane;
 public class Panel extends JPanel {
     
     private final TaskTable taskList;
-    private final TaskCreator taskCreator;
     
     public Panel(TaskCreator taskCreator, TaskTableModel model){
         super();
@@ -33,7 +31,5 @@ public class Panel extends JPanel {
         add(scroll, BorderLayout.CENTER);
         
         add(taskCreator, BorderLayout.PAGE_END);
-        
-        this.taskCreator = taskCreator;
     }
 }

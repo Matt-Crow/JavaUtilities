@@ -4,7 +4,6 @@ import javax.swing.JMenuBar;
 import boardgameSimulator.cardPlaces.Deck;
 import boardgameSimulator.games.*;
 
-@SuppressWarnings("serial")
 public class DeckBuilderMenuBar extends JMenuBar{
 	/**
 	 * The DeckBuilderMenuBar is used to contain

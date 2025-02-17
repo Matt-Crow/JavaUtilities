@@ -6,7 +6,6 @@ import javax.swing.JPanel;
 import java.awt.GridLayout;
 
 
-@SuppressWarnings("serial")
 public class DeckBuilderPanel extends JPanel{
 	/**
 	 * The DeckBuilderPanel is used by the user 

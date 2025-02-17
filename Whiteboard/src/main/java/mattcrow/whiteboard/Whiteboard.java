@@ -46,7 +46,6 @@ public class Whiteboard extends JPanel{
         add(toolsSection, BorderLayout.PAGE_START);
 
         SaveButton s = new SaveButton(new SaveAction(body));
-        s.setPointsToSave(points);
         toolsSection.add(s);
         
         //temp

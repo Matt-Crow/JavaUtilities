@@ -2,7 +2,6 @@ package boardgameSimulator.graphics;
 
 import javax.swing.JFrame;
 
-@SuppressWarnings("serial")
 public class ColorTesterFrame extends JFrame{
 	public ColorTesterFrame(){
 		super();

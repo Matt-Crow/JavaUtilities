@@ -2,8 +2,6 @@ package mattcrow.whiteboard;
 
 import javax.swing.JFrame;
 
-import mattcrow.whiteboard.Whiteboard;
-
 public class Main {
     public static void main(String[] args) {
         var frame = new JFrame();

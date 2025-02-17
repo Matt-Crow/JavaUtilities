@@ -12,7 +12,6 @@ import javax.swing.BoxLayout;
 
 import boardgameSimulator.utilities.Op;
 
-@SuppressWarnings("serial")
 public class ColorTesterPanel extends JPanel implements ChangeListener{
 	private JSlider r;
 	private JSlider g;

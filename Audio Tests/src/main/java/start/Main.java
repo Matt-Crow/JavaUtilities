@@ -1,10 +1,7 @@
 package start;
 
 import gui.Frame;
-import io.AudioInput;
-import io.AudioOutput;
 import java.net.SocketException;
-import javax.sound.sampled.AudioFormat;
 import javax.sound.sampled.LineUnavailableException;
 
 /**

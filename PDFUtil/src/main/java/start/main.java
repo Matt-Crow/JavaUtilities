@@ -13,7 +13,7 @@ import pdf.PageRotator;
  *
  * @author Matt Crow
  */
-public class main {
+public class Main {
     public static void main(String... args){
         if(args.length >= 2){
             // no time, must spaghetti code!

@@ -2,7 +2,6 @@ package boardgameSimulator.cardPlaces;
 
 import javax.swing.JFrame;
 
-@SuppressWarnings("serial")
 public class DeckTesterFrame extends JFrame{
 	public DeckTesterFrame(){
 		super();

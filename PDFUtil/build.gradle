@@ -3,7 +3,7 @@ plugins {
 }
 
 application {
-    mainClass = 'start.main'
+    mainClass = 'start.Main'
 }
 
 jar {

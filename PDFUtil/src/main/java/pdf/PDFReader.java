@@ -2,7 +2,6 @@ package pdf;
 
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import org.apache.pdfbox.pdmodel.PDDocument;

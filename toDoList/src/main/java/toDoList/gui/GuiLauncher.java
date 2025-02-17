@@ -9,6 +9,6 @@ public class GuiLauncher {
         TaskCreator taskCreator = new TaskCreator();
         TaskTableModel model = new TaskTableModel();
         Panel panel = new Panel(taskCreator, model);
-        Window window = new Window(panel);
+        new Window(panel);
     }
 }

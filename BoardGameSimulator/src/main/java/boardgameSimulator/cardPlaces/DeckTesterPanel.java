@@ -7,7 +7,6 @@ import javax.swing.JButton;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-@SuppressWarnings("serial")
 public class DeckTesterPanel extends JPanel{
 	private Deck d;
 	public DeckTesterPanel(){

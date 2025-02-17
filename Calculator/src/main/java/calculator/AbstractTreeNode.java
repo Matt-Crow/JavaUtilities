@@ -7,8 +7,8 @@ import static java.lang.System.out;
  * @author Matt
  */
 public abstract class AbstractTreeNode<T> {
-    private AbstractTreeNode left;
-    private AbstractTreeNode right;
+    private AbstractTreeNode<T> left;
+    private AbstractTreeNode<T> right;
     private final T value;
     
     public AbstractTreeNode(T val){
@@ -17,7 +17,7 @@ public abstract class AbstractTreeNode<T> {
         right = null;
     }
     
-    public final AbstractTreeNode setLeft(AbstractTreeNode l){
+    public final AbstractTreeNode<T> setLeft(AbstractTreeNode<T> l){
         if(l == null){
             throw new NullPointerException(); 
         }
@@ -31,11 +31,11 @@ public abstract class AbstractTreeNode<T> {
         
         return this;
     }
-    public final AbstractTreeNode getLeft(){
+    public final AbstractTreeNode<T> getLeft(){
         return left;
     }
     
-    public final AbstractTreeNode setRight(AbstractTreeNode r){
+    public final AbstractTreeNode<T> setRight(AbstractTreeNode<T> r){
         if(r == null){
             throw new NullPointerException(); 
         }
@@ -49,7 +49,7 @@ public abstract class AbstractTreeNode<T> {
         
         return this;
     }
-    public final AbstractTreeNode getRight(){
+    public final AbstractTreeNode<T> getRight(){
         return right;
     }
     

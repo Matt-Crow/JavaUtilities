@@ -23,9 +23,7 @@ public class VectorFieldAnimation extends AbstractAnimation {
         g.setColor(Color.black);
         g.fillRect(0, 0, w, h);
         
-        int circleX = circleX(t, w);
         g.setColor(Color.white);
-        //g.fillOval(circleX, h / 2, h / 5, h / 5);
         ((Graphics2D)g).setStroke(new BasicStroke(2));
         g.setColor(Color.MAGENTA);
         for(int i = 0; i < w; i += VECTOR_SPACING){
@@ -33,10 +31,6 @@ public class VectorFieldAnimation extends AbstractAnimation {
                 drawVector(g, w, h, i, j, t);
             }
         }
-    }
-    
-    private int circleX(double t, int width){
-        return ((int) (t * width / 3)) % width; // 3 seconds to cross screen
     }
     
     private void drawVector(Graphics g, int w, int h, int i, int j, double t) {

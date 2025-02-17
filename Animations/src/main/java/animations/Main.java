@@ -1,7 +1,5 @@
 package animations;
 
-import animations.animation.implementations.PolarGraphAnimation;
-import animations.animation.implementations.SinusoidalGraphAnimation;
 import animations.animation.implementations.VectorFieldAnimation;
 import animations.gui.GuiService;
 import animations.gui.Window;
