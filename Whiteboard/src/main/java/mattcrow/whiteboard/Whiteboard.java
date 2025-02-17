@@ -15,15 +15,13 @@ import javax.swing.SwingUtilities;
  * @author Matt
  */
 public class Whiteboard extends JPanel{
-    private LinkedList<Point> points;
-    private int MARKER_SIZE = 10;
+    private final LinkedList<Point> points = new LinkedList<>();
+    private final int MARKER_SIZE = 10;
     
     public Whiteboard(){
         super();
         
-        points = new LinkedList<>();
-        
-        SaveButton s = new SaveButton();
+        SaveButton s = new SaveButton(new SaveAction(this));
         s.setPointsToSave(points);
         add(s);
         
@@ -33,7 +31,7 @@ public class Whiteboard extends JPanel{
             JFileChooser choose = new JFileChooser();
             choose.setFileSelectionMode(JFileChooser.FILES_ONLY);
             if(choose.showOpenDialog(this) == JFileChooser.APPROVE_OPTION){
-                points = new MWBFile(choose.getSelectedFile().getAbsolutePath()).read();
+                throw new UnsupportedOperationException();
             }
         });
         add(load);

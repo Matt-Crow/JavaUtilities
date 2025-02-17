@@ -16,10 +16,12 @@ import javax.swing.JOptionPane;
  */
 public class SaveButton extends JButton implements ActionListener{
     private LinkedList<Point> pointsToSave;
+    private final SaveAction saveAction;
     
-    public SaveButton(){
+    public SaveButton(SaveAction saveAction){
         super("Save");
         pointsToSave = null;
+        this.saveAction = saveAction;
         addActionListener(this);
     }
     
@@ -43,7 +45,6 @@ public class SaveButton extends JButton implements ActionListener{
     }
     
     private void saveTo(String dir, String name){
-        MWBFile f = new MWBFile(Paths.get(dir, name + ".mwb").toString());
-        f.write(pointsToSave);
+        saveAction.saveTo(Paths.get(dir, name + ".png").toFile());
     }
 }
