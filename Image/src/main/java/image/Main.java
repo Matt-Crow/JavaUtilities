@@ -4,8 +4,8 @@ import javax.swing.JFrame;
 
 import image.gui.DragAndDropHandler;
 import image.gui.ImagePainter;
+import image.gui.ToolBar;
 import image.io.ImageLoader;
-import imageViewer.start.ToolBar;
 
 public class Main {
 

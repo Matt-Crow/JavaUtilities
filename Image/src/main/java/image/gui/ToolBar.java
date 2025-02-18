@@ -1,11 +1,10 @@
-package imageViewer.start;
+package image.gui;
 
 import javax.swing.JFileChooser;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 
 import image.ApplicationState;
-import image.gui.SaveButton;
 import image.io.ImageLoader;
 
 /**
