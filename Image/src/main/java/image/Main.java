@@ -3,7 +3,7 @@ package image;
 import javax.swing.JFrame;
 
 import image.gui.DragAndDropHandler;
-import image.gui.Whiteboard;
+import image.gui.ImagePainter;
 import image.io.ImageLoader;
 import imageViewer.start.ImagePane;
 import imageViewer.start.ToolBar;
@@ -24,15 +24,15 @@ public class Main {
             applicationState.setImage(image);
         }
 
+        // TODO combine these two JFrames
         var imageFrame = new JFrame();
         imageFrame.setTitle("Image Frame");
         imageFrame.setContentPane(new ImagePane(applicationState));
         init(imageFrame, applicationState);
 
-
         var whiteboardFrame = new JFrame();
         whiteboardFrame.setTitle("Whiteboard");
-        whiteboardFrame.setContentPane(new Whiteboard(applicationState));
+        whiteboardFrame.setContentPane(new ImagePainter(applicationState));
         init(whiteboardFrame, applicationState);
     }
     

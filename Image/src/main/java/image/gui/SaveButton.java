@@ -5,8 +5,9 @@ import java.awt.event.ActionListener;
 import java.io.IOException;
 
 import javax.imageio.ImageIO;
-import javax.swing.JButton;
 import javax.swing.JFileChooser;
+import javax.swing.JMenuItem;
+
 import java.nio.file.Paths;
 import javax.swing.JOptionPane;
 
@@ -16,7 +17,7 @@ import image.ApplicationState;
  *
  * @author Matt
  */
-public class SaveButton extends JButton implements ActionListener{
+public class SaveButton extends JMenuItem implements ActionListener{
     private final ApplicationState applicationState;
     
     public SaveButton(ApplicationState applicationState){

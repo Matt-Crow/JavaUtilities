@@ -5,6 +5,7 @@ import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 
 import image.ApplicationState;
+import image.gui.SaveButton;
 import image.io.ImageLoader;
 
 /**
@@ -23,6 +24,9 @@ public class ToolBar extends JMenuBar {
         JMenuItem openButton = new JMenuItem("open");
         openButton.addActionListener(e -> chooseFile());
         add(openButton);
+
+        var saveButton = new SaveButton(applicationState);
+        add(saveButton);
     }
     
     private void chooseFile(){
