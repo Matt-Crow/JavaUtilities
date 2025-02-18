@@ -3,6 +3,7 @@ package image.gui;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.image.BufferedImage;
 
 import javax.swing.JPanel;
 
@@ -23,6 +24,13 @@ public class ImagePainter extends JPanel {
         
         panner.handleEventsFor(this);
         zoomer.handleEventsFor(this);
+
+        applicationState.addImageChangeListener(this::handleImageChanged);
+    }
+
+    private void handleImageChanged(BufferedImage image) {
+        setSize(image.getWidth(), image.getHeight());
+        repaint();
     }
 
     @Override

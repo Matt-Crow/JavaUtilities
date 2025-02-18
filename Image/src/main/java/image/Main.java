@@ -5,7 +5,6 @@ import javax.swing.JFrame;
 import image.gui.DragAndDropHandler;
 import image.gui.ImagePainter;
 import image.io.ImageLoader;
-import imageViewer.start.ImagePane;
 import imageViewer.start.ToolBar;
 
 public class Main {
@@ -24,20 +23,10 @@ public class Main {
             applicationState.setImage(image);
         }
 
-        // TODO combine these two JFrames
-        var imageFrame = new JFrame();
-        imageFrame.setTitle("Image Frame");
-        imageFrame.setContentPane(new ImagePane(applicationState));
-        init(imageFrame, applicationState);
-
-        var whiteboardFrame = new JFrame();
-        whiteboardFrame.setTitle("Whiteboard");
-        whiteboardFrame.setContentPane(new ImagePainter(applicationState));
-        init(whiteboardFrame, applicationState);
-    }
-    
-    private static void init(JFrame frame, ApplicationState applicationState) {
+        var frame = new JFrame();
+        frame.setTitle("Whiteboard");
         frame.setJMenuBar(new ToolBar(applicationState));
+        frame.setContentPane(new ImagePainter(applicationState));
 
         new DragAndDropHandler(applicationState)
             .handleDragAndDropFor(frame);
