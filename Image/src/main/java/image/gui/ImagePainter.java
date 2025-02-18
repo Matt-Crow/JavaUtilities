@@ -17,14 +17,11 @@ import image.ApplicationState;
  */
 public class ImagePainter extends JPanel {
     private final ApplicationState applicationState;
-    private final Zoomer zoomer = new Zoomer();
-    private final DragPanner panner;
-
+    
     public ImagePainter(ApplicationState applicationState) {
         this.applicationState = applicationState;
         setBackground(Color.WHITE);
         
-        panner = (DragPanner)applicationState.getMouseTool(); // TODO push up panning into app state
         addMouseListener(new MouseAdapter() {
             @Override
             public void mousePressed(MouseEvent e) {
@@ -37,7 +34,7 @@ public class ImagePainter extends JPanel {
                 applicationState.getMouseTool().handleMouseDragged(e);
             }
         });
-        zoomer.handleEventsFor(this);
+        applicationState.getZoomTool().handleEventsFor(this);
         
         // TODO switch between panning and drawing modes for moving the mouse
         // applicationState.setMouseTool(new DrawTool(applicationState, zoomer, panner));
@@ -53,7 +50,11 @@ public class ImagePainter extends JPanel {
     @Override
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
+
+        var panner = applicationState.getPannerTool();
         g.translate(panner.getPanX(), panner.getPanY());
+
+        var zoomer = applicationState.getZoomTool();
         Graphics2D g2d = (Graphics2D)g;
         g2d.scale(zoomer.getZoomFactor(), zoomer.getZoomFactor());
         g.drawImage(applicationState.getImage(), 0, 0, this);

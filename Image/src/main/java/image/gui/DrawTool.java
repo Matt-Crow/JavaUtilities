@@ -10,13 +10,9 @@ import image.ApplicationState;
 public class DrawTool implements MouseTool {
     private final int MARKER_SIZE = 10;
     private final ApplicationState applicationState;
-    private final Zoomer zoomer;
-    private final DragPanner panner;
 
-    public DrawTool(ApplicationState applicationState, Zoomer zoomer, DragPanner panner) {
+    public DrawTool(ApplicationState applicationState) {
         this.applicationState = applicationState;
-        this.zoomer = zoomer;
-        this.panner = panner;
     }
 
     @Override
@@ -26,6 +22,8 @@ public class DrawTool implements MouseTool {
 
     @Override
     public void handleMouseDragged(MouseEvent e) {
+        var panner = applicationState.getPannerTool();
+        var zoomer = applicationState.getZoomTool();
         var x = (int)((e.getX() - panner.getPanX()) / zoomer.getZoomFactor());
         var y = (int)((e.getY() - panner.getPanY()) / zoomer.getZoomFactor());
 
