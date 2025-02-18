@@ -6,6 +6,7 @@ import java.awt.image.BufferedImage;
 import javax.swing.JPanel;
 
 import image.ApplicationState;
+import image.gui.DragPanner;
 import image.gui.Zoomer;
 /**
  *
@@ -13,26 +14,14 @@ import image.gui.Zoomer;
  */
 public class ImagePane extends JPanel {
     private BufferedImage image;
-    private int panX;
-    private int panY;
     private final Zoomer zoom = new Zoomer();
+    private final DragPanner panner = new DragPanner();
     
     public ImagePane(ApplicationState applicationState){
         super();
         image = applicationState.getImage();
-        panX = 0;
-        panY = 0;
-        DragPanner panner = new DragPanner();
-        panner.addDeltaListener((dx, dy)->{
-            panX += dx;
-            panY += dy;
-            repaint();
-        });
         
-        // need to add panner as both mouse listener and motion listener
-        addMouseListener(panner);
-        addMouseMotionListener(panner);
-        
+        panner.handleEventsFor(this);
         zoom.handleEventsFor(this);
 
         applicationState.addImageChangeListener(this::handleImageChanged);
@@ -47,7 +36,7 @@ public class ImagePane extends JPanel {
     @Override
     public void paintComponent(Graphics g){
         super.paintComponent(g);
-        g.translate(panX, panY);
+        g.translate(panner.getPanX(), panner.getPanY());
         Graphics2D g2d = (Graphics2D)g;
         g2d.scale(zoom.getZoomFactor(), zoom.getZoomFactor());
         g.drawImage(image, 0, 0, this);
